@@ -7,7 +7,9 @@
   :plugins [[lein-cljsbuild "1.1.5"]
             [lein-figwheel  "0.5.13"]
             [lein-less "1.7.5"]
-            [lein-resource "16.9.1"]]
+            [lein-resource "16.9.1"]
+            [lein-auto "0.1.3"]
+            [lein-cooper "1.2.2"]]
 
   :hooks [leiningen.less leiningen.resource leiningen.cljsbuild]
 
@@ -37,4 +39,13 @@
 
   :resource { :resource-paths ["resources/src"]
               :target-path "resources/public"
-              :excludes [ #".+less"]})
+              :excludes [ #".+less"]}
+
+  :auto {:default {:paths ["resources/src"]
+                   :file-pattern #"\.(html)$"}}
+
+  :aliases {"launch" ["do" ["less" "auto"] ["auto" "resource"] "figwheel"]}
+
+  :cooper {"less" ["lein" "less" "auto"]
+           "reource"  ["lein" "auto" "resource"]
+           "figwheel" ["lein" "figwheel"]})
