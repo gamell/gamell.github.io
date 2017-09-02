@@ -44,7 +44,7 @@
   :auto {:default {:paths ["resources/src"]
                    :file-pattern #"\.(html)$"}}
 
-  :aliases {"launch" ["do" ["less" "auto"] ["auto" "resource"] "figwheel"]}
+  :aliases {"dev" ["cooper"]}
 
   :cooper {"less" ["lein" "less" "auto"]
            "reource"  ["lein" "auto" "resource"]
