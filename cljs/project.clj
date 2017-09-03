@@ -26,7 +26,8 @@
                                                      :elide-asserts true
                                                      :pretty-print false}}}}}}
 
-  :figwheel {:repl false}
+  :figwheel {:repl false
+             :css-dirs ["resources/public/css"]}
 
   :clean-targets ^{:protect false} ["resources/public"]
 
@@ -44,7 +45,9 @@
   :auto {:default {:paths ["resources/src"]
                    :file-pattern #"\.(html)$"}}
 
-  :aliases {"dev" ["cooper"]}
+  :aliases {"debug"  ["cooper"]
+            "dev" [["with-profile" "prod"] "cooper"]}
+
 
   :cooper {"less" ["lein" "less" "auto"]
            "reource"  ["lein" "auto" "resource"]

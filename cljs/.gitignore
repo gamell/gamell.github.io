@@ -1,2 +1,4 @@
 resources/public
 target
+.DS_Store
+.nrepl-port
