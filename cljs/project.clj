@@ -45,8 +45,8 @@
   :auto {:default {:paths ["resources/src"]
                    :file-pattern #"\.(html)$"}}
 
-  :aliases {"debug"  ["cooper"]
-            "dev" [["with-profile" "prod"] "cooper"]}
+  :aliases {"dev"  ["cooper"]
+            "min" [["with-profile" "prod"] "cooper"]}
 
 
   :cooper {"less" ["lein" "less" "auto"]
