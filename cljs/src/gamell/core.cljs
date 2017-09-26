@@ -70,12 +70,37 @@
             :value @(rf/subscribe [:time-color])
             :on-change #(rf/dispatch [:time-color-change (-> % .-target .-value)])}]])  ;; <---
 
+(def update-types [:photos :projects :articles])
+
+(def fake-data {:photos ["photo-1", "photo-2"]
+                :projects ["project-1", "project-2"]
+                :articles ["article-1", "article-2"]})
+
+(defn update-card
+  [type card-info id]
+  ^{:key (str "update-card-" (name type) "-" id)}
+  [:li.update-card
+   card-info])
+
+(defn update-section
+  [type update-arr id]
+  ^{:key (str "update-section-" (name type) "-" id)}
+  [:ul.update-section (str ":type -> " type)
+   (map #(update-card type %1 %2) update-arr (iterate inc 0))])
+
+(defn updates
+  []
+  [:div "Updates"
+   (map #(update-section %1 (fake-data %1) %2) update-types (iterate inc 0))])
+
 (defn ui
   []
-  [:div
+  [:div.content
    [:h1 "Hello world, it is now"]
    [clock]
-   [color-input]])
+   [color-input]
+   [updates]])
+
 
 ;; -- Entry Point -------------------------------------------------------------
 
