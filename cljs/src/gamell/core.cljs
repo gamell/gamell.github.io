@@ -1,111 +1,136 @@
 (ns gamell.core
   (:require [reagent.core :as reagent]
             [re-frame.core :as rf]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [ajax.core :refer [GET]]
+            [clairvoyant.core :refer-macros [trace-forms]]
+            [re-frame-tracer.core :refer [tracer]]))
+
+(def content-url "https://s3.amazonaws.com/gamell-io/data.json")
+(trace-forms {:tracer (tracer :color "green")}
+
+  ;; -- Domino 1 - Event Dispatch -----------------------------------------------
+
+  ; (defn dispatch-timer-event
+  ;   []
+  ;   (let [now (js/Date.)]
+  ;     (rf/dispatch [:timer now])))  ;; <-- dispatch used
+
+  ;; Call the dispatching function every second.
+  ;; `defonce` is like `def` but it ensures only one instance is ever
+  ;; created in the face of figwheel hot-reloading of this file.
+  ; (defonce do-timer (js/setInterval dispatch-timer-event 1000))
+
+  (def initial-content
+    {:photos    ["first photo" "second photo"]
+     :repos     ["repo1" "repo2"]
+     :articles  ["article1" "article2"]})
+
+  ;; -- Domino 2 - Event Handlers -----------------------------------------------
+
+  (rf/reg-event-db              ;; sets up initial application state
+    :initialize                 ;; usage:  (dispatch [:initialize])
+    (fn [_ _]                   ;; the two parameters are not important here, so use _
+      {:time (js/Date.)         ;; What it returns becomes the new application state
+       :time-color "#f88"       ;; so the application state will initially be a map with two keys
+       :content initial-content}))
 
 
-;; -- Domino 1 - Event Dispatch -----------------------------------------------
-
-(defn dispatch-timer-event
-  []
-  (let [now (js/Date.)]
-    (rf/dispatch [:timer now])))  ;; <-- dispatch used
-
-;; Call the dispatching function every second.
-;; `defonce` is like `def` but it ensures only one instance is ever
-;; created in the face of figwheel hot-reloading of this file.
-(defonce do-timer (js/setInterval dispatch-timer-event 1000))
+  ; (rf/reg-event-db                ;; usage:  (dispatch [:time-color-change 34562])
+  ;   :time-color-change            ;; dispatched when the user enters a new colour into the UI text field
+  ;   (fn [db [_ new-color-value]]  ;; -db event handlers given 2 parameters:  current application state and event (a vector)
+  ;     (assoc db :time-color new-color-value)))   ;; compute and return the new application state
 
 
-;; -- Domino 2 - Event Handlers -----------------------------------------------
+  (defn load-content
+    []
+    (GET content-url
+      {:response-format :json
+       :keywords? true
+       :handler (fn [content]
+                  (js/console.log "*** CONTENT LOADED ***")
+                  (rf/dispatch [:content-loaded content]))}))
 
-(rf/reg-event-db              ;; sets up initial application state
-  :initialize                 ;; usage:  (dispatch [:initialize])
-  (fn [_ _]                   ;; the two parameters are not important here, so use _
-    {:time (js/Date.)         ;; What it returns becomes the new application state
-     :time-color "#f88"}))    ;; so the application state will initially be a map with two keys
+  (rf/reg-event-db                  ;; usage:  (dispatch [:time-color-change 34562])
+    :content-loaded
+    (fn [db [_ new-content]]
+      (assoc db :content (:data new-content))))
 
-
-(rf/reg-event-db                ;; usage:  (dispatch [:time-color-change 34562])
-  :time-color-change            ;; dispatched when the user enters a new colour into the UI text field
-  (fn [db [_ new-color-value]]  ;; -db event handlers given 2 parameters:  current application state and event (a vector)
-    (assoc db :time-color new-color-value)))   ;; compute and return the new application state
-
-
-(rf/reg-event-db                 ;; usage:  (dispatch [:timer a-js-Date])
-  :timer                         ;; every second an event of this kind will be dispatched
-  (fn [db [_ new-time]]          ;; note how the 2nd parameter is destructured to obtain the data value
-    (assoc db :time new-time)))  ;; compute and return the new application state
-
-
-;; -- Domino 4 - Query  -------------------------------------------------------
-
-(rf/reg-sub
-  :time
-  (fn [db _]     ;; db is current app state. 2nd unused param is query vector
-    (:time db))) ;; return a query computation over the application state
-
-(rf/reg-sub
-  :time-color
-  (fn [db _]
-    (:time-color db)))
+  ; (rf/reg-event-db                 ;; usage:  (dispatch [:timer a-js-Date])
+  ;   :timer                         ;; every second an event of this kind will be dispatched
+  ;   (fn [db [_ new-time]]          ;; note how the 2nd parameter is destructured to obtain the data value
+  ;     (assoc db :time new-time)))  ;; compute and return the new application state
 
 
-;; -- Domino 5 - View Functions ----------------------------------------------
+  ;; -- Domino 4 - Query  -------------------------------------------------------
 
-(defn clock
-  []
-  [:div.example-clock
-   {:style {:color @(rf/subscribe [:time-color])}}
-   (-> @(rf/subscribe [:time])
-       .toTimeString
-       (str/split " ")
-       first)])
+  ; (rf/reg-sub
+  ;   :time
+  ;   (fn [db _]     ;; db is current app state. 2nd unused param is query vector
+  ;     (:time db))) ;; return a query computation over the application state
+  ;
+  ; (rf/reg-sub
+  ;   :time-color
+  ;   (fn [db _]
+  ;     (:time-color db)))
 
-(defn color-input
-  []
-  [:div.color-input
-   "Time color: "
-   [:input {:type "text"
-            :value @(rf/subscribe [:time-color])
-            :on-change #(rf/dispatch [:time-color-change (-> % .-target .-value)])}]])  ;; <---
-
-(def update-types [:photos :projects :articles])
-
-(def fake-data {:photos ["photo-1", "photo-2"]
-                :projects ["project-1", "project-2"]
-                :articles ["article-1", "article-2"]})
-
-(defn update-card
-  [type card-info id]
-  ^{:key (str "update-card-" (name type) "-" id)}
-  [:li.update-card
-   card-info])
-
-(defn update-section
-  [type update-arr id]
-  ^{:key (str "update-section-" (name type) "-" id)}
-  [:ul.update-section (str ":type -> " type)
-   (map #(update-card type %1 %2) update-arr (iterate inc 0))])
-
-(defn updates
-  []
-  [:div "Updates"
-   (map #(update-section %1 (fake-data %1) %2) update-types (iterate inc 0))])
-
-(defn ui
-  []
-  [:div.content
-   [:h1 "Hello world, it is now"]
-   [clock]
-   [color-input]
-   [updates]])
+  (rf/reg-sub
+    :content
+    (fn [db _]
+      (:content db)))
 
 
-;; -- Entry Point -------------------------------------------------------------
+  ;; -- Domino 5 - View Functions ----------------------------------------------
 
-(defn ^:export run
-  []
-  (rf/dispatch-sync [:initialize])     ;; puts a value into application state
-  (reagent/render [ui]              ;; mount the application's ui into '<div id="app" />'
-                  (js/document.getElementById "app")))
+  ; (defn clock
+  ;   []
+  ;   [:div.example-clock
+  ;    {:style {:color @(rf/subscribe [:time-color])}}
+  ;    (-> @(rf/subscribe [:time])
+  ;        .toTimeString
+  ;        (str/split " ")
+  ;        first)])
+
+  ; (defn color-input
+  ;   []
+  ;   [:div.color-input
+  ;    "Time color: "
+  ;    [:input {:type "text"
+  ;             :value @(rf/subscribe [:time-color])
+  ;             :on-change #(rf/dispatch [:time-color-change (-> % .-target .-value)])}]])  ;; <---
+
+  (def update-types [:photos :repos :articles])
+
+  (defn update-card
+    [type card-info id]
+    ^{:key (str "update-card-" (name type) "-" id)}
+    [:li.update-card (:title card-info)])
+
+  (defn type-section
+    [type data id]
+    ^{:key (str "update-section-" (name type) "-" id)}
+    [:ul.update-section (str ":type -> " type)
+     (map #(update-card type %1 %2) data (iterate inc 0))])
+
+  (defn page-content
+    []
+    [:div.app "Content"
+     (let [content @(rf/subscribe [:content])]
+       (map
+         (fn [[type data] id] (type-section type data id))
+         content
+         (iterate inc 0)))])
+
+  (defn ui
+    []
+    [page-content])
+
+
+  ;; -- Entry Point -------------------------------------------------------------
+
+  (defn ^:export run
+    []
+    (rf/dispatch-sync [:initialize])       ;; puts a value into application state
+    (load-content)
+    (reagent/render [ui]                   ;; mount the application's ui into '<div id="app" />'
+                    (js/document.getElementById "content"))))

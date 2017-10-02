@@ -4,3 +4,5 @@ target
 public
 .DS_Store
 .nrepl-port
+.lein-repl-history
+figwheel_server.log
