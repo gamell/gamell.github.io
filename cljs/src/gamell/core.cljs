@@ -121,7 +121,7 @@
     [type data id]
     ^{:key (str "update-section-" (name type) "-" id)}
     [:ul.update-section (str ":type -> " type)
-         ; (js/console.log type)
+         (js/console.log type)
      (map #(card type %1 %2) data (iterate inc 0))])
 
   (defn page-content

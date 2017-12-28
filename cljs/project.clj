@@ -3,11 +3,7 @@
                  [org.clojure/clojurescript  "1.9.908"]
                  [reagent  "0.7.0"]
                  [re-frame "0.10.1"]
-                 [cljs-ajax "0.7.2"]
-                 [binaryage/devtools "0.9.4"]
-                 [org.clojars.stumitchell/clairvoyant "0.2.1"]
-                 [day8/re-frame-tracer "0.1.1-SNAPSHOT"]
-                 [proto-repl "0.3.1"]]
+                 [cljs-ajax "0.7.2"]]
 
   :plugins [[lein-cljsbuild "1.1.5"]
             [lein-figwheel  "0.5.13"]
@@ -18,7 +14,11 @@
 
   :hooks [leiningen.less leiningen.resource leiningen.cljsbuild]
 
-  :profiles {:dev {:figwheel {:repl false}
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.4"]
+                                  [org.clojars.stumitchell/clairvoyant "0.2.1"]
+                                  [day8/re-frame-tracer "0.1.1-SNAPSHOT"]
+                                  [proto-repl "0.3.1"]]
+                   :figwheel {:repl false}
                    :cljsbuild {:builds {:client {:figwheel {:on-jsload "gamell.core/run"}
                                                  :compiler {:main "gamell.core"
                                                             :asset-path "js"
@@ -28,10 +28,15 @@
                                                             :closure-defines {"clairvoyant.core.devmode" true}
                                                             :preloads [devtools.preload]}}}}}
 
-             :dev-min {:figwheel {:repl false}
-                       :cljsbuild {:builds {:client {:compiler {:optimizations :advanced
+             :min {:figwheel {:repl false}
+                   :cljsbuild {:builds {:client {:compiler {:optimizations :advanced
                                                                 :elide-asserts true
-                                                                :pretty-print false}}}}}}
+                                                                :pretty-print false}}}}}
+
+             :build {:less {:target-path "build/css"}
+                     :resource {:target-path "build"}
+                     :cljsbuild {:builds {:client {:compiler {:output-to    "build/js/client.js"
+                                                              :closure-defines {"env.prod" true}}}}}}}
 
   :figwheel {:css-dirs ["resources/public/css"]}
 
@@ -40,7 +45,7 @@
            "reource"  ["lein" "auto" "resource"]}  ;; HTML Watcher
 
 
-  :clean-targets ^{:protect false} ["resources/public"]
+  :clean-targets ^{:protect false} ["resources/public" "build"]
 
   :cljsbuild {:builds {:client {:source-paths ["src"]
                                 :compiler     {:output-dir "resources/public/js"
@@ -57,4 +62,9 @@
                    :file-pattern #"\.(html)$"}}
 
   :aliases {"dev"  ["with-profile" "dev" "cooper"]
-            "dev-min" ["with-profile" "dev-min" "cooper"]})
+            "dev-min" ["with-profile" "min,dev" "cooper"]
+            "build" ["with-profile" "min,build" "do"
+                     ["clean"]
+                     ["less" "once"]
+                     ["resource"]
+                     ["cljsbuild" "once"]]})

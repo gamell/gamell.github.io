@@ -1,5 +1,6 @@
 resources/public
 target
+build
 
 public
 .DS_Store
