@@ -22,7 +22,7 @@
   ; (defonce do-timer (js/setInterval dispatch-timer-event 1000))
 
   (def initial-content
-    {:photos    ["first photo" "second photo"]
+    {:pictures    ["first photo" "second photo"]
      :repos     ["repo1" "repo2"]
      :articles  ["article1" "article2"]})
 
@@ -99,25 +99,37 @@
   ;             :value @(rf/subscribe [:time-color])
   ;             :on-change #(rf/dispatch [:time-color-change (-> % .-target .-value)])}]])  ;; <---
 
-  (def update-types [:photos :repos :articles])
+  (def card-types {
+                   :pictures {
+                              :title :name
+                              :body :imageUrl}
+                   :repos {
+                           :title :repo
+                           :body :description}
 
-  (defn update-card
+                   :articles {
+                              :title :title
+                              :body :content}})
+
+
+  (defn card
     [type card-info id]
     ^{:key (str "update-card-" (name type) "-" id)}
-    [:li.update-card (:title card-info)])
+    [:li.update-card ((:title (get card-types :pictures)) card-info)])
 
-  (defn type-section
+  (defn content-section
     [type data id]
     ^{:key (str "update-section-" (name type) "-" id)}
     [:ul.update-section (str ":type -> " type)
-     (map #(update-card type %1 %2) data (iterate inc 0))])
+         ; (js/console.log type)
+     (map #(card type %1 %2) data (iterate inc 0))])
 
   (defn page-content
     []
     [:div.app "Content"
      (let [content @(rf/subscribe [:content])]
        (map
-         (fn [[type data] id] (type-section type data id))
+         (fn [[type data] id] (content-section type data id))
          content
          (iterate inc 0)))])
 
