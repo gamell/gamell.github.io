@@ -6,4 +6,5 @@ public
 .DS_Store
 .nrepl-port
 .lein-repl-history
+.lein-failures
 figwheel_server.log
