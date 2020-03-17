@@ -5,7 +5,7 @@
             [ajax.core :refer [GET]]))
 
 (def content-url "https://s3.amazonaws.com/gamell-io/data.json")
-    
+
   ;; -- Domino 1 - Event Dispatch -----------------------------------------------
 
   ; (defn dispatch-timer-event
@@ -26,9 +26,9 @@
   ;; -- Domino 2 - Event Handlers -----------------------------------------------
 
 (rf/reg-event-db             ;; sets up initial application state
-  :initialize                 ;; usage:  (dispatch [:initialize])
-  (fn [_ _]                   ;; the two parameters are not important here, so use _
-    {:content {}}))           ;; What it returns becomes the new application state    
+ :initialize                 ;; usage:  (dispatch [:initialize])
+ (fn [_ _]                   ;; the two parameters are not important here, so use _
+   {:content {}}))           ;; What it returns becomes the new application state    
                               ;; so the application state will initially be a map with two keys
 
 
@@ -40,18 +40,18 @@
 
 
 (defn load-content
-   []
-   (GET content-url
-     {:response-format :json
-      :keywords? true
-      :handler (fn [content]
-                 (js/console.log "*** CONTENT LOADED ***")
-                 (rf/dispatch [:content-loaded content]))}))
+  []
+  (GET content-url
+    {:response-format :json
+     :keywords? true
+     :handler (fn [content]
+                (js/console.log "*** CONTENT LOADED ***")
+                (rf/dispatch [:content-loaded content]))}))
 
 (rf/reg-event-db                  ;; usage:  (dispatch [:time-color-change 34562])
-  :content-loaded
-  (fn [db [_ new-content]]
-    (assoc db :content (:data new-content))))
+ :content-loaded
+ (fn [db [_ new-content]]
+   (assoc db :content (:data new-content))))
 
   ; (rf/reg-event-db                 ;; usage:  (dispatch [:timer a-js-Date])
   ;   :timer                         ;; every second an event of this kind will be dispatched
@@ -72,9 +72,9 @@
   ;     (:time-color db)))
 
 (rf/reg-sub
-  :content
-  (fn [db _]
-    (:content db)))
+ :content
+ (fn [db _]
+   (:content db)))
 
 
   ;; -- Domino 5 - View Functions ----------------------------------------------
@@ -108,74 +108,81 @@
   ;             :body :content}})
 
 (defn picture-card
-   [card-info]
-   [:h4 (:name card-info)]
-   [:div.photo
-    [:img {:src (:imageUrl card-info)}]])
+  [card-info]
+  [:a {:href (:url card-info)}
+    [:img {:src (:imageUrl card-info) :title (:caption card-info)}]])
 
 (defn repo-card
-   [card-info]
-   [:div
-    [:h4 (:repo card-info)]
-    [:p (:description card-info)]])
+  [card-info]
+  [:div
+   [:h4 (:name card-info)]
+   [:p (:description card-info)]
+   [:ul
+    [:li (:stars card-info)]
+    [:li (:forks card-info)]]])
 
 (defn article-card
-   [card-info]
-   [:div
-    [:h4 (:title card-info)
-     [:p (:content card-info)]]])
-
+  [card-info]
+  [:div
+   [:h4 (:title card-info)
+    [:p (:content card-info)]]])
 
 (def type-map {:pictures {:card picture-card :class "photography" :title "Latest pictures"}
-                :repos {:card repo-card :class "projects" :title "Favorite projects"}
-                :articles {:card article-card :class "articles" :title "Latest Articles"}})
+               :repos {:card repo-card :class "projects" :title "Favorite projects"}
+               :articles {:card article-card :class "articles" :title "Latest Articles"}})
 
 (defn get-class
-   [type]
-   (:class (get type-map type)))
+  [type]
+  (:class (get type-map type)))
 
 (defn get-card
-   [type]
-   (:card (get type-map type)))
+  [type]
+  (:card (get type-map type)))
 
 (defn card
-   [type card-info id]
-   ^{:key (str "update-card-" (name type) "-" id)}
-   [:li.update-card ((get-card type) card-info)])
+  [type card-info id]
+  ^{:key (str "update-card-" (name type) "-" id)}
+  [:li.card ((get-card type) card-info)])
+
+(defn contact-section
+  [data id]
+  [:section
+   [:a {:name "contact"}]
+   [:h3 "Contact information"]])
 
 (defn content-section
-   [type data id]
-   ^{:key (str "update-section-" (name type) "-" id)}
-   (let [class (get-class type)
-         title (:title (get type-map type))]
-     [:section
-      [:ul.update-section {:class class}
+  [type data id]
+  ^{:key (str "update-section-" (name type) "-" id)}
+  (if (= type :personalInformation)
+    (contact-section data id)
+    (let [class (get-class type)
+          title (:title (get type-map type))]
+      [:section {:class class}
        [:a {:name class}]
        [:h3 title]
-      ; (js/console.log type)
-       (map #(card type %1 %2) data (iterate inc 0))]]))
-
+       [:ul.section {:class class}
+        (map #(card type %1 %2) data (iterate inc 0))]])))
 
 (defn page-content
-   []
-   [:div.app
-    (let [content @(rf/subscribe [:content])]
-      (map
-       (fn [[type data] id] (content-section type data id))
-       content
-       (iterate inc 0)))])
+  []
+  [:div.app
+   (let [content @(rf/subscribe [:content])]
+     (map
+      (fn [[type data] id] (content-section type data id))
+      content
+      (iterate inc 0)))])
 
 (defn ui
-   []
-   [page-content])
+  []
+  [page-content])
 
 
   ;; -- Entry Point -------------------------------------------------------------
 
 (defn ^:export run
-   []
-   (rf/dispatch-sync [:initialize])       ;; puts a value into application state
-   (load-content)
-   (reagent/render
-    [ui]                   ;; mount the application's ui into '<div id="app" />'
-    (js/document.getElementById "content")))
+  []
+  (rf/dispatch-sync [:initialize])       ;; puts a value into application state
+  (load-content)
+  (reagent/render
+   [ui]                   ;; mount the application's ui into '<div id="app" />'
+   (js/document.getElementById "content")))

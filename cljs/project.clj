@@ -1,12 +1,12 @@
 (defproject simple "0.9.0"
-  :dependencies [[org.clojure/clojure        "1.9.0"]
-                 [org.clojure/clojurescript  "1.10.339"]
+  :dependencies [[org.clojure/clojure        "1.10.1"]
+                 [org.clojure/clojurescript  "1.10.520"]
                  [reagent  "0.8.1"]
-                 [re-frame "0.10.5"]
-                 [cljs-ajax "0.7.4"]]
+                 [re-frame "0.10.7"]
+                 [cljs-ajax "0.8.0"]]
 
   :plugins [[lein-cljsbuild "1.1.5"]
-            [lein-figwheel  "0.5.13"]
+            [lein-figwheel  "0.5.19"]
             [lein-less "1.7.5"]
             [lein-resource "16.9.1"]
             [lein-auto "0.1.3"]
@@ -21,9 +21,9 @@
                                   [org.clojars.stumitchell/clairvoyant "0.2.1"]
                                   [day8/re-frame-tracer "0.1.1-SNAPSHOT"]]
                    :figwheel {:repl false}
-                   :cljsbuild {:builds {:client {:figwheel {:on-jsload "gamell.dev/run"}
-                                                 :source-paths ["src" "dev-src"]
-                                                 :compiler {:main "gamell.dev"
+                   :cljsbuild {:builds {:client {:figwheel {:on-jsload "gamell.core/run"}
+                                                 :source-paths ["src"]
+                                                 :compiler {:main "gamell.core"
                                                             :asset-path "js"
                                                             :optimizations :none
                                                             :source-map true
