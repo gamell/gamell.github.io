@@ -107,29 +107,39 @@
   ;             :title :title
   ;             :body :content}})
 
+
 (defn picture-card
   [card-info]
   [:a {:href (:url card-info)}
-    [:img {:src (:imageUrl card-info) :title (:caption card-info)}]])
+   [:img {:src (:imageUrl card-info) :title (:caption card-info)}]])
 
 (defn repo-card
   [card-info]
-  [:div
-   [:h4 (:name card-info)]
-   [:p (:description card-info)]
-   [:ul
-    [:li (:stars card-info)]
-    [:li (:forks card-info)]]])
+  [:div {:class "wrapper"}
+   [:h4 [:a {:href (:link card-info)} (:name card-info)]]
+   [:p {:class "description"} (:description card-info)]
+   [:ul {:class "meta"}
+    [:li {:class "stars"} (:stars card-info)]
+    [:li {:class "forks"} (:forks card-info)]]])
 
 (defn article-card
   [card-info]
-  [:div
-   [:h4 (:title card-info)
-    [:p (:content card-info)]]])
+  (def meta-info (:hybridGraph (:embedInfo card-info)))
+  [:div {:class "wrapper"}
+   [:div {:class "top"}
+    [:img {:src (:image meta-info) :class "thumbnail"}]
+    [:div {:class "article-text"}
+     [:h4 [:a {:href (:link card-info)} (:title meta-info)]]
+     [:div {:class "description"} (:description meta-info)]]]
+   [:div {:class "meta"}
+    "Published on"
+    [:img {:class "favicon" :src (:favicon meta-info)}]
+    "on"
+    [:span {:class "date"} (:date card-info)]]])
 
-(def type-map {:pictures {:card picture-card :class "photography" :title "Latest pictures"}
-               :repos {:card repo-card :class "projects" :title "Favorite projects"}
-               :articles {:card article-card :class "articles" :title "Latest Articles"}})
+(def type-map {:pictures {:card picture-card :class "photography" :title "Recent Pictures"}
+               :repos {:card repo-card :class "projects" :title "Favorite Projects"}
+               :articles {:card article-card :class "articles" :title "Recent Writings"}})
 
 (defn get-class
   [type]
@@ -150,6 +160,16 @@
    [:a {:name "contact"}]
    [:h3 "Contact information"]])
 
+(def articles-footer
+  [:div {:class "footer"}
+   "You will find more of my writing in "
+   [:a {:href "https://substack.graymatters.com"}
+    "Gray Matters 🧠"]
+   "and my "
+   [:a {:href "https://medium.com/@gamell"}
+    "Medium"]
+   "."])
+
 (defn content-section
   [type data id]
   ^{:key (str "update-section-" (name type) "-" id)}
@@ -162,6 +182,10 @@
        [:h3 title]
        [:ul.section {:class class}
         (map #(card type %1 %2) data (iterate inc 0))]])))
+
+;    (if (= type :articles)
+; [res (articles-footer)]
+; res)
 
 (defn page-content
   []
@@ -178,6 +202,7 @@
 
 
   ;; -- Entry Point -------------------------------------------------------------
+
 
 (defn ^:export run
   []

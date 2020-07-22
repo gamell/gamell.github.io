@@ -1,14 +1,16 @@
 @color-dark: #111;
 @color-mid: #333;
+@color-mid-bright: #666;
 @color-bright: #eee;
 @color-bg: #fafafa;
-@color-accent-1: rgb(89.7%, 48.7%, 99.9%);
+@color-accent: rgb(234, 100, 255);
+@color-accent-bright: rgb(236, 109, 255);
 @maxBodyWith: 620px;
 @bodyWidth: 80vh;
 @verticalMargin: 5vh;
 
 .centralColumn() {
-  width: @bodyWidth;
+  // width: @bodyWidth;
   max-width: @maxBodyWith;
 }
 
@@ -35,6 +37,13 @@ header {
   margin: 0 auto;
   margin: @verticalMargin 5vw;
   text-align: center;
+}
+
+a {
+  color: blue;
+  &:hover {
+    color: @color-accent;
+  }
 }
 
 #avatar-wrapper {
@@ -141,14 +150,14 @@ nav {
         height: 1px;
         transition: 0.5s ease;
         opacity: 0;
-        background-color: @color-accent-1; /* fallback color if gradients are not supported */
+        background-color: @color-accent-bright; /* fallback color if gradients are not supported */
         //background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0) 10%, @color-accent-1 50%, rgba(0,0,0,0) 90%, rgba(0,0,0,0)); /* Standard syntax; must be last */
       }
       &:hover::after {
         opacity: 1;
       }
       &:hover {
-        color: @color-accent-1;
+        color: @color-accent-bright;
       }
     }
   }
@@ -158,7 +167,6 @@ nav {
   .centralColumn();
   text-align: left;
   margin-bottom: @verticalMargin;
-  font-weight: 100;
 }
 
 #content {
@@ -170,7 +178,13 @@ nav {
 
     h3 {
       margin: 0 0 @verticalMargin 0;
+      font-size: 1.4em;
       .centralColumn();
+    }
+
+    h4 {
+      font-weight: bold;
+      margin-top: 0;
     }
 
     ul.section {
@@ -179,6 +193,7 @@ nav {
       justify-content: space-around;
       align-items: center;
       margin: 0;
+      padding: 0;
     }
 
     li.card {
@@ -186,14 +201,106 @@ nav {
       display: flex;
       justify-content: center;
       margin: 0.7em;
+      .description {
+        font-size: 0.85em;
+        // font-weight: 300;
+      }
+    }
 
-      img {
-        object-fit: contain;
-        align-self: center;
-        max-width: 29vw;
-        width: 400px;
-        max-height: 29vw;
-        height: 400px;
+    ul.photography {
+      li.card {
+        img {
+          object-fit: contain;
+          align-self: center;
+          max-width: 29vw;
+          width: 400px;
+          max-height: 29vw;
+          height: 400px;
+        }
+      }
+    }
+
+    ul.projects {
+      .centralColumn();
+      flex-flow: column;
+      align-items: flex-start;
+      li.card {
+        flex-grow: 1;
+        border: 1px solid @color-mid;
+        box-shadow: 2px 2px 0px @color-dark;
+        padding: 1em;
+        width: 100%;
+        div.wrapper {
+          width: 100%;
+        }
+        ul.meta {
+          display: flex;
+          list-style: none;
+          padding: 0;
+          align-items: center;
+          font-size: 0.85em;
+          font-weight: 300;
+
+          li {
+            margin-right: 1em;
+            vertical-align: middle;
+          }
+
+          li.stars {
+            &::before {
+              content: "⭐️ ";
+            }
+          }
+          li.forks {
+            &::before {
+              content: "🔀 ";
+            }
+          }
+        }
+      }
+    }
+
+    ul.articles {
+      .centralColumn();
+      flex-flow: column;
+      align-items: flex-start;
+      li.card {
+        flex-grow: 1;
+        background: @color-bright;
+        // border-top: 1px solid @color-mid-bright;
+        border-radius: 8px;
+        box-shadow: 1px 1px 2px @color-mid-bright;
+        padding: 1em;
+        width: 100%;
+        div.wrapper {
+          width: 100%;
+          display: flex;
+          flex-flow: column;
+          .top {
+            display: flex;
+            flex-flow: row;
+            .thumbnail {
+              width: 30%;
+              object-fit: cover;
+              margin-right: 1em;
+            }
+          }
+          div.meta {
+            font-size: 0.8em;
+            font-weight: 300;
+            margin-top: 1em;
+            display: flex;
+            align-items: center;
+            .favicon {
+              height: 16px;
+              margin: 0 8px 0 8px;
+            }
+            .date {
+              margin: 0 8px 0 8px;
+              font-weight: 400;
+            }
+          }
+        }
       }
     }
   }
