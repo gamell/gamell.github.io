@@ -28,7 +28,8 @@
 (rf/reg-event-db             ;; sets up initial application state
  :initialize                 ;; usage:  (dispatch [:initialize])
  (fn [_ _]                   ;; the two parameters are not important here, so use _
-   {:content {}}))           ;; What it returns becomes the new application state    
+   {:content {}
+    :markdowns {}}))           ;; What it returns becomes the new application state    
                               ;; so the application state will initially be a map with two keys
 
 
@@ -46,12 +47,18 @@
      :keywords? true
      :handler (fn [content]
                 (js/console.log "*** CONTENT LOADED ***")
-                (rf/dispatch [:content-loaded content]))}))
+                (rf/dispatch [:content-loaded content])
+                (rf/dispatch [:markdowns-loaded (:markdowns content)]))}))
 
 (rf/reg-event-db                  ;; usage:  (dispatch [:time-color-change 34562])
  :content-loaded
  (fn [db [_ new-content]]
    (assoc db :content (:data new-content))))
+
+(rf/reg-event-db                  ;; usage:  (dispatch [:time-color-change 34562])
+ :markdowns-loaded
+ (fn [db [_ new-markdowns]]
+   (assoc db :markdowns new-markdowns)))
 
   ; (rf/reg-event-db                 ;; usage:  (dispatch [:timer a-js-Date])
   ;   :timer                         ;; every second an event of this kind will be dispatched
@@ -76,6 +83,10 @@
  (fn [db _]
    (:content db)))
 
+(rf/reg-sub
+ :markdowns
+ (fn [db _]
+   (:markdowns db)))
 
   ;; -- Domino 5 - View Functions ----------------------------------------------
 
@@ -187,18 +198,27 @@
 ; [res (articles-footer)]
 ; res)
 
-(defn page-content
+(defn sections
   []
-  [:div.app
+  [:div.sections
    (let [content @(rf/subscribe [:content])]
      (map
       (fn [[type data] id] (content-section type data id))
       content
       (iterate inc 0)))])
 
-(defn ui
+(defn intro
   []
-  [page-content])
+  [:div.intro
+   (let [markdowns @(rf/subscribe [:markdowns])]
+    ; (m/md->hiccup (:intro markdowns))
+     {:dangerouslySetInnerHTML {:__html (:intro markdowns)}})])
+
+(defn app
+  []
+  [:div#app
+   [intro]
+   [sections]])
 
 
   ;; -- Entry Point -------------------------------------------------------------
@@ -209,5 +229,5 @@
   (rf/dispatch-sync [:initialize])       ;; puts a value into application state
   (load-content)
   (reagent/render
-   [ui]                   ;; mount the application's ui into '<div id="app" />'
-   (js/document.getElementById "content")))
+   [app]                   ;; mount the application's ui into '<div id="content" />'
+   (js/document.getElementById "mount-point")))
