@@ -24,11 +24,6 @@ html {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0;
-  padding: 2em;
   background: @color-bg;
   font-family: "Roboto Mono", monospace;
 }
@@ -163,13 +158,18 @@ nav {
   }
 }
 
-#intro {
-  .centralColumn();
-  text-align: left;
-  margin-bottom: @verticalMargin;
-}
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0 2em;
 
-#content {
+  .intro {
+    .centralColumn();
+    text-align: left;
+    margin-bottom: @verticalMargin;
+  }
   section {
     display: flex;
     flex-direction: column;
