@@ -48,7 +48,7 @@
      :handler (fn [content]
                 (js/console.log "*** CONTENT LOADED ***")
                 (rf/dispatch [:content-loaded content])
-                (rf/dispatch [:markdowns-loaded (:markdowns content)]))}))
+                (rf/dispatch [:markdowns-loaded content]))}))
 
 (rf/reg-event-db                  ;; usage:  (dispatch [:time-color-change 34562])
  :content-loaded
@@ -57,8 +57,8 @@
 
 (rf/reg-event-db                  ;; usage:  (dispatch [:time-color-change 34562])
  :markdowns-loaded
- (fn [db [_ new-markdowns]]
-   (assoc db :markdowns new-markdowns)))
+ (fn [db [_ new-content]]
+   (assoc db :markdowns (:markdowns new-content))))
 
   ; (rf/reg-event-db                 ;; usage:  (dispatch [:timer a-js-Date])
   ;   :timer                         ;; every second an event of this kind will be dispatched
@@ -165,11 +165,18 @@
   ^{:key (str "update-card-" (name type) "-" id)}
   [:li.card ((get-card type) card-info)])
 
+(defn contact-markdown
+  []
+  [:div.contact
+   (let [markdowns @(rf/subscribe [:markdowns])]
+     {:dangerouslySetInnerHTML {:__html (:contact markdowns)}})])
+
 (defn contact-section
   [data id]
   [:section
    [:a {:name "contact"}]
-   [:h3 "Contact information"]])
+   [:h3 "Contact information"]
+   [contact-markdown]])
 
 (def articles-footer
   [:div {:class "footer"}
@@ -219,6 +226,7 @@
   [:div#app
    [intro]
    [sections]])
+
 
 
   ;; -- Entry Point -------------------------------------------------------------
