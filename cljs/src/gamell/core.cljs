@@ -127,7 +127,7 @@
 (defn repo-card
   [card-info]
   [:div {:class "wrapper"}
-   [:h4 [:a {:href (:link card-info)} (:name card-info)]]
+   [:h3 [:a {:href (:link card-info)} (:name card-info)]]
    [:p {:class "description"} (:description card-info)]
    [:ul {:class "meta"}
     [:li {:class "stars"} (:stars card-info)]
@@ -140,7 +140,7 @@
    [:div {:class "top"}
     [:img {:src (:image meta-info) :class "thumbnail"}]
     [:div {:class "article-text"}
-     [:h4 [:a {:href (:link card-info)} (:title meta-info)]]
+     [:h3 [:a {:href (:link card-info)} (:title meta-info)]]
      [:div {:class "description"} (:description meta-info)]]]
    [:div {:class "meta"}
     "Published on"
@@ -167,15 +167,15 @@
 
 (defn contact-markdown
   []
-  [:div.contact
+  [:div.contact-markdown
    (let [markdowns @(rf/subscribe [:markdowns])]
      {:dangerouslySetInnerHTML {:__html (:contact markdowns)}})])
 
 (defn contact-section
   [data id]
-  [:section
+  [:section {:class "contact"}
    [:a {:name "contact"}]
-   [:h3 "Contact information"]
+   [:h2 "Contact information"]
    [contact-markdown]])
 
 (def articles-footer
@@ -197,7 +197,7 @@
           title (:title (get type-map type))]
       [:section {:class class}
        [:a {:name class}]
-       [:h3 title]
+       [:h2 title]
        [:ul.section {:class class}
         (map #(card type %1 %2) data (iterate inc 0))]])))
 
