@@ -158,7 +158,7 @@
 
 (defn get-card
   [type]
-  (:card (get type-map type)))
+  (if (contains? type-map type) (:card (get type-map type)) nil))
 
 (defn card
   [type card-info id]
@@ -166,24 +166,21 @@
   [:li.card ((get-card type) card-info)])
 
 (defn contact-markdown
-  []
-  [:div.contact-markdown
-   (let [markdowns @(rf/subscribe [:markdowns])]
-     {:dangerouslySetInnerHTML {:__html (:contact markdowns)}})])
-
-(defn contact-section
   [data id]
   [:section {:class "contact"}
    [:a {:name "contact"}]
    [:h2 "Contact information"]
-   [contact-markdown]])
+   [:div.contact-markdown
+   (let [markdowns @(rf/subscribe [:markdowns])]
+     {:dangerouslySetInnerHTML {:__html (:contact markdowns)}})]])
 
-(def articles-footer
+(defn articles-header
+  []
   [:div {:class "footer"}
-   "You will find more of my writing in "
+   "You will find more of my writings at "
    [:a {:href "https://substack.graymatters.com"}
     "Gray Matters 🧠"]
-   "and my "
+   " and "
    [:a {:href "https://medium.com/@gamell"}
     "Medium"]
    "."])
@@ -191,19 +188,15 @@
 (defn content-section
   [type data id]
   ^{:key (str "update-section-" (name type) "-" id)}
-  (if (= type :personalInformation)
-    (contact-section data id)
-    (let [class (get-class type)
-          title (:title (get type-map type))]
-      [:section {:class class}
-       [:a {:name class}]
-       [:h2 title]
-       [:ul.section {:class class}
-        (map #(card type %1 %2) data (iterate inc 0))]])))
-
-;    (if (= type :articles)
-; [res (articles-footer)]
-; res)
+  (let [class (get-class type)
+        title (:title (get type-map type))]
+    [:section {:class class}
+     [:a {:name class}]
+     [:h2 title]
+     (when (= type :articles) [articles-header])
+     [:ul.section {:class class}
+      (map #(card type %1 %2) data (iterate inc 0))]
+]))
 
 (defn sections
   []
@@ -214,7 +207,7 @@
       content
       (iterate inc 0)))])
 
-(defn intro
+(defn intro-markdown
   []
   [:div.intro
    (let [markdowns @(rf/subscribe [:markdowns])]
@@ -224,8 +217,9 @@
 (defn app
   []
   [:div#app
-   [intro]
-   [sections]])
+   [intro-markdown]
+   [sections]
+   [contact-markdown]])
 
 
 
