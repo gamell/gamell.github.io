@@ -1,8 +1,8 @@
-(defproject simple "0.9.0"
+(defproject gamell-io "1.0.0"
   :dependencies [[org.clojure/clojure        "1.10.1"]
-                 [org.clojure/clojurescript  "1.10.520"]
-                 [reagent  "0.8.1"]
-                 [re-frame "0.10.7"]
+                 [org.clojure/clojurescript  "1.10.773"]
+                 [reagent  "0.10.0"]
+                 [re-frame "1.0.0"]
                  [cljs-ajax "0.8.0"]]
 
   :plugins [[lein-cljsbuild "1.1.5"]
@@ -17,26 +17,21 @@
 
   :repl-options {:port 12345}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
-                                  [org.clojars.stumitchell/clairvoyant "0.2.1"]
-                                  [day8/re-frame-tracer "0.1.1-SNAPSHOT"]]
-                   :figwheel {:repl false}
+  :profiles {:dev {:figwheel {:repl false}
                    :cljsbuild {:builds {:client {:figwheel {:on-jsload "gamell.core/run"}
                                                  :source-paths ["src"]
                                                  :compiler {:main "gamell.core"
                                                             :asset-path "js"
                                                             :optimizations :none
                                                             :source-map true
-                                                            :source-map-timestamp true
-                                                            :closure-defines {"clairvoyant.core.devmode" true}
-                                                            :preloads [devtools.preload]}}}}}
+                                                            :source-map-timestamp true}}}}}
              
              :prod {:less {:target-path "build/css"}
                     :resource {:target-path "build"}
                     :cljsbuild {:builds {:client {:source-paths ["src"]
                                                   :compiler {:output-to "build/js/client.js"
                                                              :asset-path "js"
-                                                             :source-map false
+                                                             :source-map "/build/js/sourcemap.js"
                                                              :optimizations :advanced
                                                              :pretty-print false
                                                              :elide-asserts true}}}}}}
