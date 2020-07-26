@@ -121,13 +121,15 @@
 
 (defn picture-card
   [card-info]
+  ^{:key (:url card-info)}
   [:a {:href (:url card-info)}
    [:img {:src (:imageUrl card-info) :title (:caption card-info)}]])
 
 (defn repo-card
   [card-info]
+  ^{:key (:link card-info)} 
   [:div {:class "wrapper"}
-   [:h3 [:a {:href (:link card-info)} (:name card-info)]]
+  [:h3 [:a {:href (:link card-info)} (:name card-info)]]
    [:p {:class "description"} (:description card-info)]
    [:ul {:class "meta"}
     [:li {:class "stars"} (:stars card-info)]
@@ -136,7 +138,7 @@
 (defn article-card
   [card-info]
   (def meta-info (:hybridGraph (:embedInfo card-info)))
-  [:div {:class "wrapper"}
+  ^{:key (:link card-info)} [:div {:class "wrapper"}
    [:div {:class "top"}
     [:img {:src (:image meta-info) :class "thumbnail"}]
     [:div {:class "article-text"}
@@ -176,6 +178,7 @@
 
 (defn articles-header
   []
+  ^{:key "articles-header"}
   [:p {:class "articles-subtitle"}
    "You will find more of my writings at "
    [:a {:href "https://substack.graymatters.com"}
@@ -187,10 +190,9 @@
 
 (defn content-section
   [type data id]
-  ^{:key (str "update-section-" (name type) "-" id)}
   (let [class (get-class type)
         title (:title (get type-map type))]
-    [:section {:class class}
+    ^{:key id} [:section {:class class}
      [:a {:name class}]
      [:h2 title]
      (when (= type :articles) [articles-header])
@@ -202,7 +204,7 @@
   [:div.sections
    (let [content @(rf/subscribe [:content])]
      (map
-      (fn [[type data] id] (content-section type data id))
+      (fn [[type data] id] ^{:key id} (content-section type data id))
       content
       (iterate inc 0)))])
 
@@ -216,7 +218,7 @@
   []
   (let [markdowns @(rf/subscribe [:markdowns])]
     (let [announcement-content (:announcements markdowns)]
-      (when (not (nil? announcement-content))
+      (when (and (not (nil? announcement-content)) (> (count announcement-content) 0))
         [:div.announcements
          [:h2 "Special Announcement"]
          [:div

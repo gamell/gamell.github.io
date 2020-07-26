@@ -1,4 +1,4 @@
-## Contact
+### Contact
 
 - Email: `gamell[at]gamell[dot]io`
 - [Keybase @gamell](https://keybase.io/gamell)
@@ -9,11 +9,11 @@
 - [Medium @gamell](https://medium.com/@gamell)
 - [Telegram @gamell](https://t.me/gamell)
 
-## Crypto
+### Crypto
 
 - BTC: `1DKJuNUgLTRDnZNHtDfseEsrEGFDou7ZEG`
 
-## PGP/GPG Key
+### PGP/GPG Key
 
 ```
 -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -49,6 +49,6 @@ kAROWHX0Rnr8kDaIcN7IEqhi+fhBs45SZIxpzbkIdSBDIMdab5qVOQ1CSdqF
 -----END PGP PUBLIC KEY BLOCK-----
 ```
 
-## Resume
+### Resume
 
 You can find my (probably outdated) resume in PDF format [here](https://github.com/gamell/resume/raw/master/dist/joan-gamell-resume.pdf), and [here in HTML](https://gamell.github.io/resume/resume.html). Lastly, check out [this Github project](https://github.com/gamell/resume) if you want to build a similar resume with Node & Markdown.
