@@ -171,12 +171,12 @@
    [:a {:name "contact"}]
    [:h2 "Contact information"]
    [:div.contact-markdown
-   (let [markdowns @(rf/subscribe [:markdowns])]
-     {:dangerouslySetInnerHTML {:__html (:contact markdowns)}})]])
+    (let [markdowns @(rf/subscribe [:markdowns])]
+      {:dangerouslySetInnerHTML {:__html (:contact markdowns)}})]])
 
 (defn articles-header
   []
-  [:div {:class "footer"}
+  [:p {:class "articles-subtitle"}
    "You will find more of my writings at "
    [:a {:href "https://substack.graymatters.com"}
     "Gray Matters 🧠"]
@@ -195,8 +195,7 @@
      [:h2 title]
      (when (= type :articles) [articles-header])
      [:ul.section {:class class}
-      (map #(card type %1 %2) data (iterate inc 0))]
-]))
+      (map #(card type %1 %2) data (iterate inc 0))]]))
 
 (defn sections
   []
@@ -211,13 +210,23 @@
   []
   [:div.intro
    (let [markdowns @(rf/subscribe [:markdowns])]
-    ; (m/md->hiccup (:intro markdowns))
      {:dangerouslySetInnerHTML {:__html (:intro markdowns)}})])
+
+(defn announcements-markdown
+  []
+  (let [markdowns @(rf/subscribe [:markdowns])]
+    (let [announcement-content (:announcements markdowns)]
+      (when (not (nil? announcement-content))
+        [:div.announcements
+         [:h2 "Special Announcement"]
+         [:div
+          {:dangerouslySetInnerHTML {:__html announcement-content} :class "content"}]]))))
 
 (defn app
   []
   [:div#app
    [intro-markdown]
+   [announcements-markdown]
    [sections]
    [contact-markdown]])
 
