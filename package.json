@@ -1,24 +1,39 @@
 {
-    "name": "",
-    "version": "0.0.1",
-    "description": "gulp",
-    "repository": {},
-    "readme": {},
-    "dependencies": {},
-    "devDependencies": {
-        "browser-sync": "^0.9.1",
-        "connect": "^2.14.4",
-        "connect-livereload": "^0.4.0",
-        "gulp": "^3.6.0",
-        "gulp-livereload": "^1.2.0",
-        "gulp-load-plugins": "^0.5.0",
-        "gulp-sass": "^0.7.1",
-        "gulp-autoprefixer": "^0.0.7",
-        "gulp-jshint": "^1.6.1",
-        "jshint-stylish": "^0.2.0",
-        "gulp-size": "^0.3.1",
-        "gulp-notify": "^1.2.6",
-        "opn": "^0.1.1"
-    } ,
-    "readme": {}
+  "name": "gamell.io-2017",
+  "version": "1.0.0",
+  "description": "v2017 of my personal website. More to come...",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "del": "^2.2.2",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-cache": "^0.4.6",
+    "gulp-eslint": "^3.0.1",
+    "gulp-gzip": "^1.4.2",
+    "gulp-htmlmin": "^3.0.0",
+    "gulp-if": "^2.0.2",
+    "gulp-imagemin": "^3.2.0",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-size": "^2.1.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^2.1.2",
+    "shelljs": "^0.8.4",
+    "wiredep": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gamell/gamell.io-2017.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gamell/gamell.io-2017/issues"
+  },
+  "homepage": "https://github.com/gamell/gamell.io-2017#readme"
 }

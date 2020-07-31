@@ -1,64 +1,21 @@
-'use strict';
+const gulp = require("gulp");
+const del = require("del");
+const shell = require("shelljs");
+const gzip = require("gulp-gzip");
 
-var gulp = require('gulp');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var $ = require('gulp-load-plugins')();
+function clean() {
+  return del(["docs"]);
+}
 
+function buildCljs(cb) {
+  shell.cd("./cljs");
+  shell.exec("lein build");
+  shell.cd("../..");
+  cb();
+}
 
-gulp.task('connect', function () {
-    var connect = require('connect');
-    var app = connect()
-        .use(require('connect-livereload')({ port: 35729 }))
-        .use(connect.static('app'))
-        .use(connect.directory('app'));
+function compress() {
+  return gulp.src(["cljs/build/**/*"]).pipe(gzip()).pipe(gulp.dest("docs"));
+}
 
-    require('http').createServer(app)
-        .listen(9000)
-        .on('listening', function () {
-            console.log('Started connect web server on http://localhost:9000');
-        });
-});
-
-
-gulp.task('serve', ['connect'], function () {
-    require('opn')('http://localhost:9000');
-});
-
-
-
-gulp.task('styles', function () {
-    return gulp.src('app/sass/**/*.scss')
-        .pipe($.sass({errLogToConsole: true}))
-        .pipe($.autoprefixer('last 1 version'))
-        .pipe(gulp.dest('app/styles'))
-        .pipe(reload({stream:true}))
-//        .pipe($.notify("Compilation complete."))
-        ;
-});
-
-
-
-gulp.task('scripts', function () {
-    return gulp.src('app/scripts/**/*.js')
-        .pipe($.jshint())
-        .pipe($.jshint.reporter(require('jshint-stylish')))
-        .pipe($.size());
-});
-
-
-
-gulp.task('watch', ['connect', 'serve'], function () {
-    var server = $.livereload();
-    gulp.watch('app/sass/**/*.scss', ['styles']);
-    gulp.watch('app/scripts/**/*.js', ['scripts']);
-    gulp.watch([
-        'app/*.html',
-        'app/styles/**/*.css',
-        'app/sass/**/*.scss',
-        'app/scripts/**/*.js'
-    ]).on('change', function (file) {
-        server.changed(file.path);
-    });
-
-});
+exports.default = gulp.series(clean, buildCljs, compress);
