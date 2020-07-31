@@ -1,8 +1,9 @@
 (ns gamell.core
-  (:require [reagent.core :as reagent]
-            [re-frame.core :as rf]
-            [clojure.string :as str]
-            [ajax.core :refer [GET]]))
+  (:require
+   [reagent.dom :as rdom]
+   [re-frame.core :as rf]
+   [clojure.string :as str]
+   [ajax.core :refer [GET]]))
 
 (def content-url "https://s3.amazonaws.com/gamell-io/data.json")
 
@@ -127,9 +128,9 @@
 
 (defn repo-card
   [card-info]
-  ^{:key (:link card-info)} 
+  ^{:key (:link card-info)}
   [:div {:class "wrapper"}
-  [:h3 [:a {:href (:link card-info)} (:name card-info)]]
+   [:h3 [:a {:href (:link card-info)} (:name card-info)]]
    [:p {:class "description"} (:description card-info)]
    [:ul {:class "meta"}
     [:li {:class "stars"} (:stars card-info)]
@@ -139,16 +140,16 @@
   [card-info]
   (def meta-info (:hybridGraph (:embedInfo card-info)))
   ^{:key (:link card-info)} [:div {:class "wrapper"}
-   [:div {:class "top"}
-    [:img {:src (:image meta-info) :class "thumbnail"}]
-    [:div {:class "article-text"}
-     [:h3 [:a {:href (:link card-info)} (:title meta-info)]]
-     [:div {:class "description"} (:description meta-info)]]]
-   [:div {:class "meta"}
-    "Published on"
-    [:img {:class "favicon" :src (:favicon meta-info)}]
-    "on"
-    [:span {:class "date"} (:date card-info)]]])
+                             [:div {:class "top"}
+                              [:img {:src (:image meta-info) :class "thumbnail"}]
+                              [:div {:class "article-text"}
+                               [:h3 [:a {:href (:link card-info)} (:title meta-info)]]
+                               [:div {:class "description"} (:description meta-info)]]]
+                             [:div {:class "meta"}
+                              "Published on"
+                              [:img {:class "favicon" :src (:favicon meta-info)}]
+                              "on"
+                              [:span {:class "date"} (:date card-info)]]])
 
 (def type-map {:pictures {:card picture-card :class "photography" :title "Recent Pictures"}
                :repos {:card repo-card :class "projects" :title "Favorite Projects"}
@@ -193,11 +194,11 @@
   (let [class (get-class type)
         title (:title (get type-map type))]
     ^{:key id} [:section {:class class}
-     [:a {:name class}]
-     [:h2 title]
-     (when (= type :articles) [articles-header])
-     [:ul.section {:class class}
-      (map #(card type %1 %2) data (iterate inc 0))]]))
+                [:a {:name class}]
+                [:h2 title]
+                (when (= type :articles) [articles-header])
+                [:ul.section {:class class}
+                 (map #(card type %1 %2) data (iterate inc 0))]]))
 
 (defn sections
   []
@@ -224,13 +225,22 @@
          [:div
           {:dangerouslySetInnerHTML {:__html announcement-content} :class "content"}]]))))
 
+(defn footer
+  []
+  [:div {:class "footer"}
+   "Made with "
+   [:img {:src "img/cljs.png" :class "icon" :alt "ClojureScript"}]
+   " and "
+   [:img {:src "img/reframe.png" :class "icon" :alt "Re-Fraame"}]])
+
 (defn app
   []
   [:div#app
    [intro-markdown]
    [announcements-markdown]
    [sections]
-   [contact-markdown]])
+   [contact-markdown]
+   [footer]])
 
 
 
@@ -241,6 +251,6 @@
   []
   (rf/dispatch-sync [:initialize])       ;; puts a value into application state
   (load-content)
-  (reagent/render
+  (rdom/render
    [app]                   ;; mount the application's ui into '<div id="content" />'
    (js/document.getElementById "mount-point")))
