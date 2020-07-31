@@ -11,6 +11,7 @@ function buildCljs(cb) {
   shell.cd("./cljs");
   shell.exec("lein build");
   shell.cd("../..");
+  shell.exec("sleep 2");
   cb();
 }
 
