@@ -1,3 +1,6 @@
 # gamell.io-v2
 
-v2017 of my personal website. More to come...
+`npm install`
+
+`npx gulp`
+
