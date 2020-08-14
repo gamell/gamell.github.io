@@ -229,9 +229,14 @@
   []
   [:div {:class "footer"}
    "Made with "
-   [:img {:src "img/cljs.png" :class "icon" :alt "ClojureScript"}]
+   [:a {:href "https://clojure.org/"}
+    [:img {:src "img/clojure.png" :class "icon" :alt "Clojure"}]]
+   ", "
+   [:a {:href "https://clojurescript.org/"}
+    [:img {:src "img/cljs.png" :class "icon" :alt "ClojureScript"}]]
    " and "
-   [:img {:src "img/reframe.png" :class "icon" :alt "Re-Fraame"}]])
+   [:a {:href "https://github.com/day8/re-frame"}
+    [:img {:src "img/reframe.png" :class "icon" :alt "Re-Frame"}]]])
 
 (defn app
   []

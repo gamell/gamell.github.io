@@ -1,1 +1,0 @@
-{:output-dir "build/js", :externs ["closure-js/externs"], :elide-asserts true, :optimizations :advanced, :output-to "build/js/client.js", :asset-path "js", :output-wrapper true, :source-map "build/js/sourcemap.js", :libs ["closure-js/libs"], :pretty-print false}

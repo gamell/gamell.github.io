@@ -53,6 +53,7 @@
 
   :resource {:resource-paths ["resources/src"]
              :target-path "resources/public"
+             :skip-stencil [#".*"] ; do not process the files, just copy them
              :excludes [#".+less"]}
 
   :auto {:default {:paths ["resources/src"]
@@ -67,6 +68,6 @@
             "dev-min" ["with-profile" "prod" "cooper"]
             "build" ["with-profile" "prod" "do"
                      ["clean"]
-                     ["less" "once"]
                      ["resource"]
+                     ["less" "once"]
                      ["cljsbuild" "once" "client"]]})
