@@ -16,7 +16,9 @@ function buildCljs(cb) {
 }
 
 function compress() {
-  return gulp.src(["cljs/build/**/*"]).pipe(gzip()).pipe(gulp.dest("docs"));
+  return gulp.src(["cljs/build/**/*"]).pipe(gulp.dest("docs"));
 }
 
 exports.default = gulp.series(clean, buildCljs, compress);
+
+exports.compress = compress;
