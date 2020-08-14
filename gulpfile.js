@@ -1,7 +1,6 @@
 const gulp = require("gulp");
 const del = require("del");
 const shell = require("shelljs");
-const gzip = require("gulp-gzip");
 
 function clean() {
   return del(["docs/**/*"]);
@@ -14,11 +13,8 @@ function buildCljs(cb) {
   cb();
 }
 
-function compress() {
-  return gulp
-    .src("cljs/build/**/*")
-    .pipe(gzip({ append: true }))
-    .pipe(gulp.dest("docs/"));
+function copy() {
+  return gulp.src("cljs/build/**/*").pipe(gulp.dest("docs/"));
 }
 
 function startServer() {
@@ -26,10 +22,9 @@ function startServer() {
 }
 
 function build() {
-  return gulp.series(clean, buildCljs, compress);
+  return gulp.series(clean, buildCljs, copy);
 }
 
 exports.default = build();
 exports.build = build();
-exports.serve = gulp.series(clean, buildCljs, compress, startServer);
-exports.compress = compress;
+exports.serve = gulp.series(clean, buildCljs, copy, startServer);

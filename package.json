@@ -9,7 +9,6 @@
     "gulp-autoprefixer": "^4.0.0",
     "gulp-cache": "^0.4.6",
     "gulp-eslint": "^3.0.1",
-    "gulp-gzip": "^1.4.2",
     "gulp-htmlmin": "^3.0.0",
     "gulp-if": "^2.0.2",
     "gulp-imagemin": "^3.2.0",
