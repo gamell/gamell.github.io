@@ -1,6 +1,6 @@
 ### Contact
 
-- Email: `gamell[at]gamell[dot]io`
+- Email: `gamell [dot] workd [at] proton [dot] me`
 - [Keybase @gamell](https://keybase.io/gamell)
 - [Github @gamell](https://github.com/gamell)
 - [LinkedIn @gamell](https://linkedin.com/in/gamell)
@@ -51,4 +51,4 @@ kAROWHX0Rnr8kDaIcN7IEqhi+fhBs45SZIxpzbkIdSBDIMdab5qVOQ1CSdqF
 
 ### Resume
 
-You can find my (probably outdated) resume in PDF format [here](https://github.com/gamell/resume/raw/master/dist/joan-gamell-resume.pdf), and [here in HTML](https://gamell.github.io/resume/resume.html). Lastly, check out [this Github project](https://github.com/gamell/resume) if you want to build a similar resume with Node & Markdown.
+You can find my (probably outdated) resume in PDF format [here](https://gamell.io/resume/resume-joan-gamell.pdf), and [here in HTML](https://gamell.io/resume/resume.html). Lastly, check out [this Github project](https://github.com/gamell/resume) if you want to build a similar resume with HTML, CSS, Node & Markdown.
