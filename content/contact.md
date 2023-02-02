@@ -1,6 +1,6 @@
 ### Contact
 
-- Email: `gamell [dot] workd [at] proton [dot] me`
+- Email: `gamell [dot] works [at] proton [dot] me`
 - [Keybase @gamell](https://keybase.io/gamell)
 - [Github @gamell](https://github.com/gamell)
 - [LinkedIn @gamell](https://linkedin.com/in/gamell)
