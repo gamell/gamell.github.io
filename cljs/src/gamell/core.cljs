@@ -182,7 +182,7 @@
   ^{:key "articles-header"}
   [:p {:class "articles-subtitle"}
    "You will find more of my writings at "
-   [:a {:href "https://substack.graymatters.com"}
+   [:a {:href "https://graymatters.substack.com"}
     "Gray Matters 🧠"]
    " and "
    [:a {:href "https://medium.com/@gamell"}
