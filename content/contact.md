@@ -1,17 +1,10 @@
 ### Contact
 
 - Email: `gamell [dot] works [at] proton [dot] me`
-- [Keybase @gamell](https://keybase.io/gamell)
 - [Github @gamell](https://github.com/gamell)
 - [LinkedIn @gamell](https://linkedin.com/in/gamell)
-- [Instagram @jgamell](https://www.instagram.com/jgamell/)
 - [Twitter @gamell](https://twitter.com/gamell)
 - [Medium @gamell](https://medium.com/@gamell)
-- [Telegram @gamell](https://t.me/gamell)
-
-### Crypto
-
-- BTC: `1DKJuNUgLTRDnZNHtDfseEsrEGFDou7ZEG`
 
 ### PGP/GPG Key
 
