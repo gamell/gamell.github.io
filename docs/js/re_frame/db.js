@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.773 {:static-fns true, :optimize-constants true, :elide-asserts true}
+// Compiled by ClojureScript 1.12.145 {:static-fns true, :optimize-constants true, :elide-asserts true, :optimizations :advanced}
 goog.provide('re_frame.db');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');

@@ -1,29 +1,34 @@
 (ns re-frame.interceptor
   (:require
-    [re-frame.loggers :refer [console]]
-    [re-frame.interop :refer [empty-queue debug-enabled?]]
-    [re-frame.trace :as trace :include-macros true]
-    [clojure.set :as set]))
-
+   [re-frame.loggers :refer [console]]
+   [re-frame.interop :refer [empty-queue debug-enabled?]]
+   [re-frame.trace :as trace :include-macros true]
+   [re-frame.registrar :as registrar]
+   [re-frame.utils :as u]
+   [clojure.set :as set]))
 
 (def mandatory-interceptor-keys #{:id :after :before})
+
+(def optional-interceptor-keys #{:comment})
 
 (defn interceptor?
   [m]
   (and (map? m)
-       (= mandatory-interceptor-keys (-> m keys set))))
-
+       (= mandatory-interceptor-keys
+          (-> m keys set (set/difference optional-interceptor-keys)))))
 
 (defn ->interceptor
-  [& {:as m :keys [id before after]}]
+  [& {:as m :keys [id comment before after]}]
   (when debug-enabled?
     (if-let [unknown-keys (seq (set/difference
                                 (-> m keys set)
-                                mandatory-interceptor-keys))]
+                                mandatory-interceptor-keys
+                                optional-interceptor-keys))]
       (console :error "re-frame: ->interceptor" m "has unknown keys:" unknown-keys)))
-  {:id     (or id :unnamed)
-   :before before
-   :after  after})
+  (cond-> {:id     (or id :unnamed)
+           :before before
+           :after  after}
+    comment (assoc :comment comment)))
 
 ;; -- Effect Helpers  -----------------------------------------------------------------------------
 
@@ -63,13 +68,23 @@
 
 ;; -- Execute Interceptor Chain  ------------------------------------------------------------------
 
+(defn- exception->ex-info [e interceptor direction]
+  (ex-info (str "Interceptor Exception: " #?(:clj (.getMessage e) :cljs (ex-message e)))
+           {:direction direction
+            :interceptor (:id interceptor)}
+           e))
 
 (defn- invoke-interceptor-fn
-  [context interceptor direction]
-  (if-let [f (get interceptor direction)]
-    (f context)
-    context))
-
+  [{::keys [original-exception?] :as context} interceptor direction]
+  (let [f (get interceptor direction)]
+    (cond
+      (not f) context
+      original-exception? (f context)
+      :else
+      (try
+        (f context)
+        (catch #?(:clj Exception :cljs :default) e
+          (throw (exception->ex-info e interceptor direction)))))))
 
 (defn- invoke-interceptors
   "Loop over all interceptors, calling `direction` function on each,
@@ -88,7 +103,7 @@
   through all interceptor functions.
 
   Generally speaking, an interceptor's `:before` function will (if present)
-  add to a `context's` `:coeffects`, while it's `:after` function
+  add to a `context's` `:coeffects`, while its `:after` function
   will modify the `context`'s `:effects`.  Very approximately.
 
   But because all interceptor functions are given `context`, and can
@@ -107,24 +122,24 @@
                              :stack (conj stack interceptor))
                       (invoke-interceptor-fn interceptor direction)))))))))
 
-
 (defn enqueue
   [context interceptors]
   (update context :queue
           (fnil into empty-queue)
           interceptors))
 
-
 (defn- context
   "Create a fresh context"
   ([event interceptors]
    (-> {}
-      (assoc-coeffect :event event)
-      (enqueue interceptors)))
+       (assoc-coeffect :event event)
+      ;; Some interceptors, like `trim-v` and `unwrap`, alter event so capture
+      ;; the original for use cases such as tracing.
+       (assoc-coeffect :original-event event)
+       (enqueue interceptors)))
   ([event interceptors db]      ;; only used in tests, probably a hack, remove ?  XXX
    (-> (context event interceptors)
        (assoc-coeffect :db db))))
-
 
 (defn- change-direction
   "Called on completion of `:before` processing, this function prepares/modifies
@@ -139,6 +154,30 @@
       (dissoc :queue)
       (enqueue (:stack context))))
 
+(defn execute*
+  [ctx]
+  (-> ctx
+      (invoke-interceptors :before)
+      change-direction
+      (invoke-interceptors :after)))
+
+(defn- merge-ex-data [e & ms]
+  (ex-info #?(:clj (.getMessage e) :cljs (ex-message e))
+           (apply merge (ex-data e) ms)
+           #?(:clj (.getCause e) :cljs (ex-cause e))))
+
+(defn default-error-handler [original-error re-frame-error]
+  (let [{:keys [event-v direction interceptor]} (ex-data re-frame-error)
+        event-handler? (#{:db-handler :fx-handler :ctx-handler} interceptor)]
+    (apply console :error
+           "An error occurred while handling the re-frame event:"
+           (str event-v)
+           "\n"
+           (map str
+                (if event-handler?
+                  ["Within the" (first event-v) "event handler function."]
+                  ["Within the" direction "phase of the" (pr-str interceptor) "interceptor."])))
+    (throw original-error)))
 
 (defn execute
   "Executes the given chain (coll) of interceptors.
@@ -147,7 +186,7 @@
        {:before  (fn [context] ...)     ;; returns possibly modified context
         :after   (fn [context] ...)}    ;; `identity` would be a noop
 
-   Walks the queue of iterceptors from beginning to end, calling the
+   Walks the queue of interceptors from beginning to end, calling the
    `:before` fn on each, then reverse direction and walk backwards,
    calling the `:after` fn on each.
 
@@ -160,12 +199,12 @@
      {:coeffects {:event [:a-query-id :some-param]
                   :db    <original contents of app-db>}
       :effects   {:db    <new value for app-db>
-                  :dispatch  [:an-event-id :param1]}
+                  :fx  [:dispatch [:an-event-id :param1]]}
       :queue     <a collection of further interceptors>
       :stack     <a collection of interceptors already walked>}
 
    `context` has `:coeffects` and `:effects` which, if this was a web
-   server, would be somewhat anologous to `request` and `response`
+   server, would be somewhat analogous to `request` and `response`
    respectively.
 
    `coeffects` will contain data like `event` and the initial
@@ -190,9 +229,14 @@
    already done.  In advanced cases, these values can be modified by the
    functions through which the context is threaded."
   [event-v interceptors]
-  (trace/merge-trace!
-    {:tags {:interceptors interceptors}})
-  (-> (context event-v interceptors)
-      (invoke-interceptors :before)
-      change-direction
-      (invoke-interceptors :after)))
+  (let [ctx (context event-v interceptors)
+        error-handler (registrar/get-handler :error :event-handler)]
+    (trace/merge-trace!
+     {:tags {:interceptors interceptors}})
+    (if-not error-handler
+      (execute* (assoc ctx ::original-exception? true))
+      (try
+        (execute* ctx)
+        (catch #?(:clj Exception :cljs :default) e
+          (error-handler (ex-cause e)
+                         (merge-ex-data e {:event-v event-v})))))))

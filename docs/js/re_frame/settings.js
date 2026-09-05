@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.773 {:static-fns true, :optimize-constants true, :elide-asserts true}
+// Compiled by ClojureScript 1.12.145 {:static-fns true, :optimize-constants true, :elide-asserts true, :optimizations :advanced}
 goog.provide('re_frame.settings');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
@@ -14,30 +14,43 @@ return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(m,cljs.core.cst$kw$loaded_Q
 re_frame.settings.loaded_QMARK_ = (function re_frame$settings$loaded_QMARK_(){
 return cljs.core.cst$kw$loaded_QMARK_.cljs$core$IFn$_invoke$arity$1(cljs.core.deref(re_frame.settings.store));
 });
-re_frame.settings.reg_global_interceptor = (function re_frame$settings$reg_global_interceptor(p__6199){
-var map__6200 = p__6199;
-var map__6200__$1 = (((((!((map__6200 == null))))?(((((map__6200.cljs$lang$protocol_mask$partition0$ & (64))) || ((cljs.core.PROTOCOL_SENTINEL === map__6200.cljs$core$ISeq$))))?true:false):false))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__6200):map__6200);
-var interceptor = map__6200__$1;
-var id = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__6200__$1,cljs.core.cst$kw$id);
-return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(re_frame.settings.store,cljs.core.update,cljs.core.cst$kw$global_DASH_interceptors,(function (global_interceptors){
-var ids = cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$id,global_interceptors);
+re_frame.settings._replace_global_interceptor = (function re_frame$settings$_replace_global_interceptor(global_interceptors,interceptor){
+return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (ret,existing_interceptor){
+if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(interceptor),cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(existing_interceptor))){
 if(re_frame.interop.debug_enabled_QMARK_){
-if(cljs.core.truth_(((cljs.core.not(re_frame.settings.loaded_QMARK_()))?cljs.core.some(cljs.core.PersistentHashSet.createAsIfByAssoc([id]),ids):false))){
-re_frame.loggers.console.cljs$core$IFn$_invoke$arity$variadic(cljs.core.cst$kw$warn,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["re-frame: duplicate global interceptor id: ",id], 0));
+if(cljs.core.not(re_frame.settings.loaded_QMARK_())){
+re_frame.loggers.console.cljs$core$IFn$_invoke$arity$variadic(cljs.core.cst$kw$warn,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2(["re-frame: replacing duplicate global interceptor id: ",cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(interceptor)], 0));
 } else {
 }
 } else {
 }
 
+return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(ret,interceptor);
+} else {
+return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(ret,existing_interceptor);
+}
+}),re_frame.interop.empty_queue,global_interceptors);
+});
+re_frame.settings.reg_global_interceptor = (function re_frame$settings$reg_global_interceptor(p__7221){
+var map__7222 = p__7221;
+var map__7222__$1 = cljs.core.__destructure_map(map__7222);
+var interceptor = map__7222__$1;
+var id = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__7222__$1,cljs.core.cst$kw$id);
+return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(re_frame.settings.store,cljs.core.update,cljs.core.cst$kw$global_DASH_interceptors,(function (global_interceptors){
+var ids = cljs.core.map.cljs$core$IFn$_invoke$arity$2(cljs.core.cst$kw$id,global_interceptors);
+if(cljs.core.truth_(cljs.core.some(cljs.core.PersistentHashSet.createAsIfByAssoc([id]),ids))){
+return re_frame.settings._replace_global_interceptor(global_interceptors,interceptor);
+} else {
 return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(global_interceptors,interceptor);
+}
 }));
 });
 re_frame.settings.get_global_interceptors = (function re_frame$settings$get_global_interceptors(){
 return cljs.core.cst$kw$global_DASH_interceptors.cljs$core$IFn$_invoke$arity$1(cljs.core.deref(re_frame.settings.store));
 });
 re_frame.settings.clear_global_interceptors = (function re_frame$settings$clear_global_interceptors(var_args){
-var G__6204 = arguments.length;
-switch (G__6204) {
+var G__7225 = arguments.length;
+switch (G__7225) {
 case 0:
 return re_frame.settings.clear_global_interceptors.cljs$core$IFn$_invoke$arity$0();
 
@@ -47,7 +60,7 @@ return re_frame.settings.clear_global_interceptors.cljs$core$IFn$_invoke$arity$1
 
 break;
 default:
-throw (new Error(["Invalid arity: ",cljs.core.str.cljs$core$IFn$_invoke$arity$1(arguments.length)].join('')));
+throw (new Error(["Invalid arity: ",arguments.length].join("")));
 
 }
 });
@@ -58,8 +71,8 @@ return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(re_frame.settings.stor
 
 (re_frame.settings.clear_global_interceptors.cljs$core$IFn$_invoke$arity$1 = (function (id){
 return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$4(re_frame.settings.store,cljs.core.update,cljs.core.cst$kw$global_DASH_interceptors,(function (global_interceptors){
-return cljs.core.into.cljs$core$IFn$_invoke$arity$2(re_frame.interop.empty_queue,cljs.core.remove.cljs$core$IFn$_invoke$arity$2((function (p1__6202_SHARP_){
-return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(id,cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(p1__6202_SHARP_));
+return cljs.core.into.cljs$core$IFn$_invoke$arity$2(re_frame.interop.empty_queue,cljs.core.remove.cljs$core$IFn$_invoke$arity$2((function (p1__7223_SHARP_){
+return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(id,cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(p1__7223_SHARP_));
 }),global_interceptors));
 }));
 }));

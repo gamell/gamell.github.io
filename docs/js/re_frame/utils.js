@@ -1,26 +1,27 @@
-// Compiled by ClojureScript 1.10.773 {:static-fns true, :optimize-constants true, :elide-asserts true}
+// Compiled by ClojureScript 1.12.145 {:static-fns true, :optimize-constants true, :elide-asserts true, :optimizations :advanced}
 goog.provide('re_frame.utils');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
 goog.require('re_frame.loggers');
+goog.require('re_frame.interop');
 /**
  * Dissociates an entry from a nested associative structure returning a new
  *   nested structure. keys is a sequence of keys. Any empty maps that result
  *   will not be present in the new structure.
- *   The key thing is that 'm' remains identical? to istelf if the path was never present
+ *   The key thing is that 'm' remains identical? to itself if the path was never present
  */
-re_frame.utils.dissoc_in = (function re_frame$utils$dissoc_in(m,p__6216){
-var vec__6217 = p__6216;
-var seq__6218 = cljs.core.seq(vec__6217);
-var first__6219 = cljs.core.first(seq__6218);
-var seq__6218__$1 = cljs.core.next(seq__6218);
-var k = first__6219;
-var ks = seq__6218__$1;
-var keys = vec__6217;
+re_frame.utils.dissoc_in = (function re_frame$utils$dissoc_in(m,p__7242){
+var vec__7243 = p__7242;
+var seq__7244 = cljs.core.seq(vec__7243);
+var first__7245 = cljs.core.first(seq__7244);
+var seq__7244__$1 = cljs.core.next(seq__7244);
+var k = first__7245;
+var ks = seq__7244__$1;
+var keys = vec__7243;
 if(ks){
-var temp__5733__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(m,k);
-if(cljs.core.truth_(temp__5733__auto__)){
-var nextmap = temp__5733__auto__;
+var temp__5821__auto__ = cljs.core.get.cljs$core$IFn$_invoke$arity$2(m,k);
+if(cljs.core.truth_(temp__5821__auto__)){
+var nextmap = temp__5821__auto__;
 var newmap = (re_frame.utils.dissoc_in.cljs$core$IFn$_invoke$arity$2 ? re_frame.utils.dissoc_in.cljs$core$IFn$_invoke$arity$2(nextmap,ks) : re_frame.utils.dissoc_in.call(null,nextmap,ks));
 if(cljs.core.seq(newmap)){
 return cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(m,k,newmap);
@@ -46,23 +47,23 @@ return re_frame.loggers.console.cljs$core$IFn$_invoke$arity$variadic(cljs.core.c
  *   not a seq but a map with the arguments for f
  */
 re_frame.utils.apply_kw = (function re_frame$utils$apply_kw(var_args){
-var args__4742__auto__ = [];
-var len__4736__auto___6222 = arguments.length;
-var i__4737__auto___6223 = (0);
+var args__5903__auto__ = [];
+var len__5897__auto___7248 = arguments.length;
+var i__5898__auto___7249 = (0);
 while(true){
-if((i__4737__auto___6223 < len__4736__auto___6222)){
-args__4742__auto__.push((arguments[i__4737__auto___6223]));
+if((i__5898__auto___7249 < len__5897__auto___7248)){
+args__5903__auto__.push((arguments[i__5898__auto___7249]));
 
-var G__6224 = (i__4737__auto___6223 + (1));
-i__4737__auto___6223 = G__6224;
+var G__7250 = (i__5898__auto___7249 + (1));
+i__5898__auto___7249 = G__7250;
 continue;
 } else {
 }
 break;
 }
 
-var argseq__4743__auto__ = ((((1) < args__4742__auto__.length))?(new cljs.core.IndexedSeq(args__4742__auto__.slice((1)),(0),null)):null);
-return re_frame.utils.apply_kw.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),argseq__4743__auto__);
+var argseq__5904__auto__ = ((((1) < args__5903__auto__.length))?(new cljs.core.IndexedSeq(args__5903__auto__.slice((1)),(0),null)):null);
+return re_frame.utils.apply_kw.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),argseq__5904__auto__);
 });
 
 (re_frame.utils.apply_kw.cljs$core$IFn$_invoke$arity$variadic = (function (f,args){
@@ -73,10 +74,224 @@ return cljs.core.apply.cljs$core$IFn$_invoke$arity$2(f,cljs.core.apply.cljs$core
 (re_frame.utils.apply_kw.cljs$lang$maxFixedArity = (1));
 
 /** @this {Function} */
-(re_frame.utils.apply_kw.cljs$lang$applyTo = (function (seq6220){
-var G__6221 = cljs.core.first(seq6220);
-var seq6220__$1 = cljs.core.next(seq6220);
-var self__4723__auto__ = this;
-return self__4723__auto__.cljs$core$IFn$_invoke$arity$variadic(G__6221,seq6220__$1);
+(re_frame.utils.apply_kw.cljs$lang$applyTo = (function (seq7246){
+var G__7247 = cljs.core.first(seq7246);
+var seq7246__$1 = cljs.core.next(seq7246);
+var self__5882__auto__ = this;
+return self__5882__auto__.cljs$core$IFn$_invoke$arity$variadic(G__7247,seq7246__$1);
 }));
 
+re_frame.utils.map_vals = (function re_frame$utils$map_vals(f,m){
+return cljs.core.into.cljs$core$IFn$_invoke$arity$3(cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.cljs$core$IFn$_invoke$arity$1((function (p__7251){
+var vec__7252 = p__7251;
+var k = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__7252,(0),null);
+var v = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__7252,(1),null);
+return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [k,(f.cljs$core$IFn$_invoke$arity$1 ? f.cljs$core$IFn$_invoke$arity$1(v) : f.call(null,v))], null);
+})),m);
+});
+re_frame.utils.find_cycle = (function re_frame$utils$find_cycle(graph,visited,node){
+var stack = new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [node], null);
+var path = cljs.core.PersistentVector.EMPTY;
+while(true){
+var current = cljs.core.peek(stack);
+if(cljs.core.truth_(cljs.core.some(cljs.core.PersistentHashSet.createAsIfByAssoc([current]),path))){
+return cljs.core.conj.cljs$core$IFn$_invoke$arity$2(cljs.core.take_while.cljs$core$IFn$_invoke$arity$2(((function (stack,path,current){
+return (function (p1__7255_SHARP_){
+return cljs.core.not_EQ_.cljs$core$IFn$_invoke$arity$2(p1__7255_SHARP_,current);
+});})(stack,path,current))
+,cljs.core.reverse(path)),current);
+} else {
+var temp__5821__auto__ = cljs.core.seq(cljs.core.get.cljs$core$IFn$_invoke$arity$2(graph,current));
+if(temp__5821__auto__){
+var neighbors = temp__5821__auto__;
+var G__7256 = cljs.core.into.cljs$core$IFn$_invoke$arity$2(stack,cljs.core.disj.cljs$core$IFn$_invoke$arity$2(cljs.core.set(neighbors),visited));
+var G__7257 = cljs.core.conj.cljs$core$IFn$_invoke$arity$2(path,current);
+stack = G__7256;
+path = G__7257;
+continue;
+} else {
+var G__7258 = cljs.core.pop(stack);
+var G__7259 = path;
+stack = G__7258;
+path = G__7259;
+continue;
+}
+}
+break;
+}
+});
+re_frame.utils.topsort_kahn = (function re_frame$utils$topsort_kahn(graph){
+var in_degree = cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (acc,p__7263){
+var vec__7264 = p__7263;
+var node = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__7264,(0),null);
+var neighbors = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__7264,(1),null);
+return cljs.core.reduce.cljs$core$IFn$_invoke$arity$3((function (a,neighbor){
+return cljs.core.update.cljs$core$IFn$_invoke$arity$3(a,neighbor,cljs.core.inc);
+}),acc,neighbors);
+}),cljs.core.PersistentArrayMap.EMPTY,graph);
+var ks = cljs.core.keys(graph);
+var q = cljs.core.filter.cljs$core$IFn$_invoke$arity$2(((function (in_degree,ks){
+return (function (p1__7260_SHARP_){
+return (cljs.core.get.cljs$core$IFn$_invoke$arity$3(in_degree,p1__7260_SHARP_,(0)) === (0));
+});})(in_degree,ks))
+,ks);
+var sorted = re_frame.interop.empty_queue;
+var in_degree__$1 = in_degree;
+while(true){
+if(cljs.core.seq(q)){
+var current = cljs.core.first(q);
+var neighbors = cljs.core.get.cljs$core$IFn$_invoke$arity$3(graph,current,cljs.core.PersistentVector.EMPTY);
+var updated_in_degree = cljs.core.reduce.cljs$core$IFn$_invoke$arity$3(((function (q,sorted,in_degree__$1,current,neighbors,in_degree,ks){
+return (function (acc,neighbor){
+return cljs.core.update.cljs$core$IFn$_invoke$arity$3(acc,neighbor,cljs.core.dec);
+});})(q,sorted,in_degree__$1,current,neighbors,in_degree,ks))
+,in_degree__$1,neighbors);
+var new_q = cljs.core.concat.cljs$core$IFn$_invoke$arity$2(cljs.core.rest(q),cljs.core.filter.cljs$core$IFn$_invoke$arity$2(((function (q,sorted,in_degree__$1,current,neighbors,updated_in_degree,in_degree,ks){
+return (function (p1__7261_SHARP_){
+return cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2((0),cljs.core.get.cljs$core$IFn$_invoke$arity$2(updated_in_degree,p1__7261_SHARP_));
+});})(q,sorted,in_degree__$1,current,neighbors,updated_in_degree,in_degree,ks))
+,neighbors));
+var G__7267 = new_q;
+var G__7268 = cljs.core.conj.cljs$core$IFn$_invoke$arity$2(sorted,current);
+var G__7269 = updated_in_degree;
+q = G__7267;
+sorted = G__7268;
+in_degree__$1 = G__7269;
+continue;
+} else {
+if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(cljs.core.count(sorted),cljs.core.count(ks))){
+return sorted;
+} else {
+var unvisited = cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.set(sorted),ks);
+var cycle = cljs.core.some(((function (q,sorted,in_degree__$1,unvisited,in_degree,ks){
+return (function (p1__7262_SHARP_){
+return re_frame.utils.find_cycle(graph,cljs.core.set(sorted),p1__7262_SHARP_);
+});})(q,sorted,in_degree__$1,unvisited,in_degree,ks))
+,unvisited);
+throw (new Error((""+"Graph has a cycle: "+cljs.core.str.cljs$core$IFn$_invoke$arity$1(cycle))));
+
+}
+}
+break;
+}
+});
+re_frame.utils.remove_orphans = (function re_frame$utils$remove_orphans(graph){
+return re_frame.utils.map_vals(cljs.core.partial.cljs$core$IFn$_invoke$arity$2(cljs.core.filterv,cljs.core.set(cljs.core.keys(graph))),graph);
+});
+re_frame.utils.safe_update_in = (function re_frame$utils$safe_update_in(var_args){
+var args__5903__auto__ = [];
+var len__5897__auto___7274 = arguments.length;
+var i__5898__auto___7275 = (0);
+while(true){
+if((i__5898__auto___7275 < len__5897__auto___7274)){
+args__5903__auto__.push((arguments[i__5898__auto___7275]));
+
+var G__7276 = (i__5898__auto___7275 + (1));
+i__5898__auto___7275 = G__7276;
+continue;
+} else {
+}
+break;
+}
+
+var argseq__5904__auto__ = ((((3) < args__5903__auto__.length))?(new cljs.core.IndexedSeq(args__5903__auto__.slice((3)),(0),null)):null);
+return re_frame.utils.safe_update_in.cljs$core$IFn$_invoke$arity$variadic((arguments[(0)]),(arguments[(1)]),(arguments[(2)]),argseq__5904__auto__);
+});
+
+(re_frame.utils.safe_update_in.cljs$core$IFn$_invoke$arity$variadic = (function (m,path,f,args){
+if(cljs.core.empty_QMARK_(path)){
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$3(f,m,args);
+} else {
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$5(cljs.core.update_in,m,path,f,args);
+}
+}));
+
+(re_frame.utils.safe_update_in.cljs$lang$maxFixedArity = (3));
+
+/** @this {Function} */
+(re_frame.utils.safe_update_in.cljs$lang$applyTo = (function (seq7270){
+var G__7271 = cljs.core.first(seq7270);
+var seq7270__$1 = cljs.core.next(seq7270);
+var G__7272 = cljs.core.first(seq7270__$1);
+var seq7270__$2 = cljs.core.next(seq7270__$1);
+var G__7273 = cljs.core.first(seq7270__$2);
+var seq7270__$3 = cljs.core.next(seq7270__$2);
+var self__5882__auto__ = this;
+return self__5882__auto__.cljs$core$IFn$_invoke$arity$variadic(G__7271,G__7272,G__7273,seq7270__$3);
+}));
+
+/**
+ * Dissoces the map entry at the path, then recurs through the ancestors,
+ *   dissocing each ancestor until one is found with a descendent outside the path.
+ * 
+ *   ```
+ *   (deep-dissoc {:a {:b {:c {:d 1}}}}
+ *             [:a :b :c :d])
+ *   ```
+ * 
+ *   This yields an empty map, since each node has a sole descendant.
+ * 
+ *   ```
+ *   (deep-dissoc {:a {:x 2 :b {:c {:d 1}}}}
+ *             [:a :b :c :d])
+ *   ```
+ * 
+ *   This yields `{:a {:x 2}}`, since `:a` has a descendent `:x` outside the path.
+ *   
+ */
+re_frame.utils.deep_dissoc = (function re_frame$utils$deep_dissoc(m,path){
+while(true){
+if(cljs.core.empty_QMARK_(path)){
+return m;
+} else {
+var new_data = re_frame.utils.safe_update_in.cljs$core$IFn$_invoke$arity$variadic(m,cljs.core.pop(path),cljs.core.dissoc,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.peek(path)], 0));
+if((!(cljs.core.empty_QMARK_(cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(new_data,cljs.core.pop(path)))))){
+return new_data;
+} else {
+var G__7277 = new_data;
+var G__7278 = cljs.core.pop(path);
+m = G__7277;
+path = G__7278;
+continue;
+}
+}
+break;
+}
+});
+/**
+ * Based on clojure.core/memoize,
+ *   except it can only remember a single value.
+ */
+re_frame.utils.memoize_one = (function re_frame$utils$memoize_one(f){
+var mem = cljs.core.atom.cljs$core$IFn$_invoke$arity$1(cljs.core.PersistentArrayMap.EMPTY);
+return (function() { 
+var G__7279__delegate = function (args){
+var temp__5821__auto__ = cljs.core.find(cljs.core.deref(mem),args);
+if(cljs.core.truth_(temp__5821__auto__)){
+var e = temp__5821__auto__;
+return cljs.core.val(e);
+} else {
+var ret = cljs.core.apply.cljs$core$IFn$_invoke$arity$2(f,args);
+cljs.core.reset_BANG_(mem,cljs.core.PersistentArrayMap.createAsIfByAssoc([args,ret]));
+
+return ret;
+}
+};
+var G__7279 = function (var_args){
+var args = null;
+if (arguments.length > 0) {
+var G__7280__i = 0, G__7280__a = new Array(arguments.length -  0);
+while (G__7280__i < G__7280__a.length) {G__7280__a[G__7280__i] = arguments[G__7280__i + 0]; ++G__7280__i;}
+  args = new cljs.core.IndexedSeq(G__7280__a,0,null);
+} 
+return G__7279__delegate.call(this,args);};
+G__7279.cljs$lang$maxFixedArity = 0;
+G__7279.cljs$lang$applyTo = (function (arglist__7281){
+var args = cljs.core.seq(arglist__7281);
+return G__7279__delegate(args);
+});
+G__7279.cljs$core$IFn$_invoke$arity$variadic = G__7279__delegate;
+return G__7279;
+})()
+;
+});

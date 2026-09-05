@@ -5,11 +5,11 @@
             [reagent.ratom]))
 
 (defn on-load
-      [listener]
+  [listener]
       ;; events/listen throws an exception in react-native environments because addEventListener is not available.
-      (try
-        (events/listen js/self "load" listener)
-        (catch :default _)))
+  (try
+    (events/listen js/self "load" listener)
+    (catch :default _)))
 
 (def next-tick goog.async.nextTick)
 
@@ -22,6 +22,9 @@
 ;; Type hints have been liberally sprinkled.
 ;; https://developers.google.com/closure/compiler/docs/js-for-compiler
 (def ^boolean debug-enabled? "@define {boolean}" ^boolean goog/DEBUG)
+
+(defn new-uuid []
+  (random-uuid))
 
 (defn ratom [x]
   (reagent.core/atom x))
@@ -36,7 +39,6 @@
 (defn deref? [x]
   (satisfies? IDeref x))
 
-
 (defn make-reaction [f]
   (reagent.ratom/make-reaction f))
 
@@ -46,8 +48,19 @@
 (defn dispose! [a-ratom]
   (reagent.ratom/dispose! a-ratom))
 
-(defn set-timeout! [f ms]
+(defn set-timeout!
+  "Schedule `f` to run after `ms` milliseconds. Returns a handle that
+  can be passed to `clear-timeout!` to cancel before it fires."
+  [f ms]
   (js/setTimeout f ms))
+
+(defn clear-timeout!
+  "Cancel a pending timeout previously scheduled with `set-timeout!`.
+  No-op if `handle` is nil or the timeout has already fired."
+  [handle]
+  (when (some? handle)
+    (js/clearTimeout handle))
+  nil)
 
 (defn now []
   (if (and
@@ -72,3 +85,7 @@
            reagent.ratom/Track "tr"
            "other")
          (hash reactive-val))))
+
+(defn reactive?
+  []
+  (reagent.ratom/reactive?))

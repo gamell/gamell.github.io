@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/gamell
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://gamell.io
+  * I am gamell (https://keybase.io/gamell) on keybase.
+  * I have a public key ASCropRxX0HNhgLY_hReXcTNx44JxmCWzZdRmUP0Pwn16Qo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101c54e3280da4468c0acb09b2b6537e9c1d8c85a44a42bfc51bde1f84c75da00ce0a",
+      "host": "keybase.io",
+      "kid": "0120aba294715f41cd8602d8fe145e5dc4cdc78e09c66096cd97519943f43f09f5e90a",
+      "uid": "c940b6d9539efc9f90210656dec86e19",
+      "username": "gamell"
+    },
+    "merkle_root": {
+      "ctime": 1614147990,
+      "hash": "70694c99e6e68e19d729867e5b342f69c43b464a8def42bd81f65d4ccc1d89113279639767d7fb35b4fb1e7e73b66ff3bcc7b3a0b3656593e942c595819f5df7",
+      "hash_meta": "7bfc2d7192075d12d6266aaf0888d4c3a2b9b39a040242081efb464b979623fb",
+      "seqno": 19206403
+    },
+    "service": {
+      "entropy": "o513kHqVursCS/gmTb+xs/H2",
+      "hostname": "gamell.io",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.6.2"
+  },
+  "ctime": 1614148194,
+  "expire_in": 504576000,
+  "prev": "b1b880858f106758eccecf052a0239ac2497f963b9694e3233f4588876e17e1b",
+  "seqno": 60,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgq6KUcV9BzYYC2P4UXl3EzceOCcZgls2XUZlD9D8J9ekKp3BheWxvYWTESpcCPMQgsbiAhY8QZ1jszs8FKgI5rCSX+WO5aU4yM/RYiHbhfhvEIL1kLg5kb7r1MD4q67y7kjjYbf78tP50lXHoE2Rx7gvYAgHCo3NpZ8RA/2DT6jf9le7J8lzrwbR0eClRrhi1RUVLj3RCW6R1ghUHd1HgefBGr+rPeyRSxb2wZ3sJhw7D9JFC64jPibbKC6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIMVnVNrU77Fmh2lM2visS+1f7q1ofDlCZwwUDK8lUYpJo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/gamell
+
+==================================================================

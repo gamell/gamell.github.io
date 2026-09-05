@@ -1,24 +1,26 @@
 (defproject gamell-io "1.0.0"
-  :dependencies [[org.clojure/clojure        "1.10.1"]
-                 [org.clojure/clojurescript  "1.10.773"]
-                 [reagent  "0.10.0"]
-                 [re-frame "1.0.0"]
-                 [cljs-ajax "0.8.0"]]
+  :dependencies [[org.clojure/clojure        "1.12.6"]
+                 [org.clojure/clojurescript  "1.12.145"]
+                 [reagent  "1.3.0"]
+                 [cljsjs/react "18.3.1-1"]
+                 [cljsjs/react-dom "18.3.1-1"]
+                 [re-frame "1.4.7"]
+                 [cljs-ajax "0.8.4"]]
 
-  :plugins [[lein-cljsbuild "1.1.5"]
-            [lein-figwheel  "0.5.19"]
+  :plugins [[lein-cljsbuild "1.1.8"]
+            [lein-figwheel  "0.5.20"]
             [lein-less "1.7.5"]
-            [org.openjdk.nashorn/nashorn-core "15.6"]
+            [org.openjdk.nashorn/nashorn-core "15.7"]
             [lein-resource "17.06.1"]
             [lein-auto "0.1.3"]
             [lein-cooper "1.2.2"]
-            [lein-ancient "0.6.15"]]
+            [lein-ancient "1.0.0"]]
 
   :hooks [leiningen.less leiningen.resource leiningen.cljsbuild]
 
   :repl-options {:port 12345}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "1.0.2"]
+  :profiles {:dev {:dependencies [[binaryage/devtools "1.0.7"]
                                   [org.clojars.stumitchell/clairvoyant "0.2.1"]
                                   [day8/re-frame-tracer "0.1.1-SNAPSHOT"]]
                    :figwheel {:repl false}

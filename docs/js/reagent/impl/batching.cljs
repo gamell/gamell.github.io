@@ -17,11 +17,12 @@
   (if-not is-client
     fake-raf
     (let [w js/window]
-      (or (.-requestAnimationFrame w)
-          (.-webkitRequestAnimationFrame w)
-          (.-mozRequestAnimationFrame w)
-          (.-msRequestAnimationFrame w)
-          fake-raf))))
+      (.bind (or (.-requestAnimationFrame w)
+                 (.-webkitRequestAnimationFrame w)
+                 (.-mozRequestAnimationFrame w)
+                 (.-msRequestAnimationFrame w)
+                 fake-raf)
+             w))))
 
 (defn compare-mount-order
   [^clj c1 ^clj c2]
@@ -59,17 +60,17 @@
 
   (queue-render [this c]
     (when (nil? (.-componentQueue this))
-      (set! (.-componentQueue this) (array)))
+      (set! (.-componentQueue this) #js []))
     (enqueue this (.-componentQueue this) c))
 
   (add-before-flush [this f]
     (when (nil? (.-beforeFlush this))
-      (set! (.-beforeFlush this) (array)))
+      (set! (.-beforeFlush this) #js []))
     (enqueue this (.-beforeFlush this) f))
 
   (add-after-render [this f]
     (when (nil? (.-afterRender this))
-      (set! (.-afterRender this) (array)))
+      (set! (.-afterRender this) #js []))
     (enqueue this (.-afterRender this) f))
 
   (run-queues [this]
@@ -97,7 +98,7 @@
     (.flush-render this)
     (.flush-after-render this)))
 
-(defonce render-queue (->RenderQueue false))
+(def render-queue (->RenderQueue false))
 
 (defn flush []
   (.flush-queues render-queue))

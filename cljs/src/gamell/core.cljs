@@ -1,6 +1,6 @@
 (ns gamell.core
   (:require
-   [reagent.dom :as rdom]
+   [reagent.dom.client :as rdc]
    [re-frame.core :as rf]
    [clojure.string :as str]
    [ajax.core :refer [GET]]))
@@ -252,10 +252,11 @@
   ;; -- Entry Point -------------------------------------------------------------
 
 
+(defonce root
+  (rdc/create-root (js/document.getElementById "mount-point")))
+
 (defn ^:export run
   []
   (rf/dispatch-sync [:initialize])       ;; puts a value into application state
   (load-content)
-  (rdom/render
-   [app]                   ;; mount the application's ui into '<div id="content" />'
-   (js/document.getElementById "mount-point")))
+  (rdc/render root [app]))               ;; mount the application's ui into '<div id="mount-point" />'

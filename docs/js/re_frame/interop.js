@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 1.10.773 {:static-fns true, :optimize-constants true, :elide-asserts true}
+// Compiled by ClojureScript 1.12.145 {:static-fns true, :optimize-constants true, :elide-asserts true, :optimizations :advanced}
 goog.provide('re_frame.interop');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
@@ -8,7 +8,7 @@ goog.require('reagent.core');
 goog.require('reagent.ratom');
 re_frame.interop.on_load = (function re_frame$interop$on_load(listener){
 try{return goog.events.listen(self,"load",listener);
-}catch (e5598){var _ = e5598;
+}catch (e5990){var _ = e5990;
 return null;
 }});
 re_frame.interop.next_tick = goog.async.nextTick;
@@ -18,6 +18,9 @@ re_frame.interop.after_render = reagent.core.after_render;
  * @define {boolean}
  */
 re_frame.interop.debug_enabled_QMARK_ = goog.DEBUG;
+re_frame.interop.new_uuid = (function re_frame$interop$new_uuid(){
+return cljs.core.random_uuid();
+});
 re_frame.interop.ratom = (function re_frame$interop$ratom(x){
 return reagent.core.atom.cljs$core$IFn$_invoke$arity$1(x);
 });
@@ -60,8 +63,24 @@ return reagent.ratom.add_on_dispose_BANG_(a_ratom,f);
 re_frame.interop.dispose_BANG_ = (function re_frame$interop$dispose_BANG_(a_ratom){
 return reagent.ratom.dispose_BANG_(a_ratom);
 });
+/**
+ * Schedule `f` to run after `ms` milliseconds. Returns a handle that
+ *   can be passed to `clear-timeout!` to cancel before it fires.
+ */
 re_frame.interop.set_timeout_BANG_ = (function re_frame$interop$set_timeout_BANG_(f,ms){
 return setTimeout(f,ms);
+});
+/**
+ * Cancel a pending timeout previously scheduled with `set-timeout!`.
+ *   No-op if `handle` is nil or the timeout has already fired.
+ */
+re_frame.interop.clear_timeout_BANG_ = (function re_frame$interop$clear_timeout_BANG_(handle){
+if((!((handle == null)))){
+clearTimeout(handle);
+} else {
+}
+
+return null;
 });
 re_frame.interop.now = (function re_frame$interop$now(){
 if((((typeof performance !== 'undefined')) && ((typeof performance !== 'undefined') && (typeof performance.now !== 'undefined')))){
@@ -76,18 +95,18 @@ return Date.now();
  */
 re_frame.interop.reagent_id = (function re_frame$interop$reagent_id(reactive_val){
 if((((!((reactive_val == null))))?((((false) || ((cljs.core.PROTOCOL_SENTINEL === reactive_val.reagent$ratom$IReactiveAtom$))))?true:false):false)){
-return [(function (){var pred__5605 = cljs.core.instance_QMARK_;
-var expr__5606 = reactive_val;
-if(cljs.core.truth_((pred__5605.cljs$core$IFn$_invoke$arity$2 ? pred__5605.cljs$core$IFn$_invoke$arity$2(reagent.ratom.RAtom,expr__5606) : pred__5605.call(null,reagent.ratom.RAtom,expr__5606)))){
+return (""+cljs.core.str.cljs$core$IFn$_invoke$arity$1((function (){var pred__5994 = cljs.core.instance_QMARK_;
+var expr__5995 = reactive_val;
+if(cljs.core.truth_((pred__5994.cljs$core$IFn$_invoke$arity$2 ? pred__5994.cljs$core$IFn$_invoke$arity$2(reagent.ratom.RAtom,expr__5995) : pred__5994.call(null,reagent.ratom.RAtom,expr__5995)))){
 return "ra";
 } else {
-if(cljs.core.truth_((pred__5605.cljs$core$IFn$_invoke$arity$2 ? pred__5605.cljs$core$IFn$_invoke$arity$2(reagent.ratom.RCursor,expr__5606) : pred__5605.call(null,reagent.ratom.RCursor,expr__5606)))){
+if(cljs.core.truth_((pred__5994.cljs$core$IFn$_invoke$arity$2 ? pred__5994.cljs$core$IFn$_invoke$arity$2(reagent.ratom.RCursor,expr__5995) : pred__5994.call(null,reagent.ratom.RCursor,expr__5995)))){
 return "rc";
 } else {
-if(cljs.core.truth_((pred__5605.cljs$core$IFn$_invoke$arity$2 ? pred__5605.cljs$core$IFn$_invoke$arity$2(reagent.ratom.Reaction,expr__5606) : pred__5605.call(null,reagent.ratom.Reaction,expr__5606)))){
+if(cljs.core.truth_((pred__5994.cljs$core$IFn$_invoke$arity$2 ? pred__5994.cljs$core$IFn$_invoke$arity$2(reagent.ratom.Reaction,expr__5995) : pred__5994.call(null,reagent.ratom.Reaction,expr__5995)))){
 return "rx";
 } else {
-if(cljs.core.truth_((pred__5605.cljs$core$IFn$_invoke$arity$2 ? pred__5605.cljs$core$IFn$_invoke$arity$2(reagent.ratom.Track,expr__5606) : pred__5605.call(null,reagent.ratom.Track,expr__5606)))){
+if(cljs.core.truth_((pred__5994.cljs$core$IFn$_invoke$arity$2 ? pred__5994.cljs$core$IFn$_invoke$arity$2(reagent.ratom.Track,expr__5995) : pred__5994.call(null,reagent.ratom.Track,expr__5995)))){
 return "tr";
 } else {
 return "other";
@@ -95,8 +114,11 @@ return "other";
 }
 }
 }
-})(),cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.hash(reactive_val))].join('');
+})())+cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.hash(reactive_val)));
 } else {
 return null;
 }
+});
+re_frame.interop.reactive_QMARK_ = (function re_frame$interop$reactive_QMARK_(){
+return reagent.ratom.reactive_QMARK_();
 });
