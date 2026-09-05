@@ -121,10 +121,19 @@
 
 
 (defn picture-card
-  [card-info]
-  ^{:key (:url card-info)}
-  [:a {:href (:url card-info)}
-   [:img {:src (:imageUrl card-info) :title (:caption card-info)}]])
+  "Lightroom rendition: thumbnailUrl is 640px wide, imageUrl 1280px wide."
+  [{:keys [id caption url imageUrl thumbnailUrl]}]
+  (let [thumb (or thumbnailUrl imageUrl)
+        alt   (or caption "")]
+    ^{:key id}
+    [:a {:href url :target "_blank" :rel "noopener"}
+     [:img (cond-> {:src thumb
+                    :alt alt
+                    :title alt
+                    :loading "lazy"}
+             (and thumbnailUrl imageUrl)
+             (assoc :srcset (str thumbnailUrl " 640w, " imageUrl " 1280w")
+                    :sizes "(max-width: 699px) 50vw, (max-width: 999px) 33vw, 270px"))]]))
 
 (defn repo-card
   [card-info]
@@ -165,7 +174,7 @@
 
 (defn card
   [type card-info id]
-  ^{:key (str "update-card-" (name type) "-" id)}
+  ^{:key (str "update-card-" (name type) "-" (or (:id card-info) (:link card-info) id))}
   [:li.card ((get-card type) card-info)])
 
 (defn contact-markdown

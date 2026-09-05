@@ -242,15 +242,41 @@ nav {
       }
     }
 
+    // Lightroom renditions are a mix of 3:2 landscape and 2:3 portrait
+    // images, so every tile gets a fixed 3:2 box and the picture is
+    // cropped to fill it, keeping the grid clean regardless of orientation.
     ul.photography {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.7em;
+      width: 100%;
+      max-width: 1080px;
+      @media (min-width: 700px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @media (min-width: 1000px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
       li.card {
+        margin: 0;
+        a {
+          display: block;
+          width: 100%;
+          aspect-ratio: ~"3 / 2";
+          overflow: hidden;
+          border-radius: 4px;
+          background: @color-bright;
+          box-shadow: 1px 1px 2px @color-mid-bright;
+        }
         img {
-          object-fit: contain;
-          align-self: center;
-          max-width: 29vw;
-          width: 400px;
-          max-height: 29vw;
-          height: 400px;
+          display: block;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.4s ease;
+        }
+        a:hover img {
+          transform: scale(1.04);
         }
       }
     }

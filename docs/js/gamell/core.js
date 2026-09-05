@@ -37,8 +37,44 @@ return cljs.core.cst$kw$content.cljs$core$IFn$_invoke$arity$1(db);
 re_frame.core.reg_sub.cljs$core$IFn$_invoke$arity$variadic(cljs.core.cst$kw$markdowns,cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([(function (db,_){
 return cljs.core.cst$kw$markdowns.cljs$core$IFn$_invoke$arity$1(db);
 })], 0));
-gamell.core.picture_card = (function gamell$core$picture_card(card_info){
-return cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$href,cljs.core.cst$kw$url.cljs$core$IFn$_invoke$arity$1(card_info)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$img,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$src,cljs.core.cst$kw$imageUrl.cljs$core$IFn$_invoke$arity$1(card_info),cljs.core.cst$kw$title,cljs.core.cst$kw$caption.cljs$core$IFn$_invoke$arity$1(card_info)], null)], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,cljs.core.cst$kw$url.cljs$core$IFn$_invoke$arity$1(card_info)], null));
+/**
+ * Lightroom rendition: thumbnailUrl is 640px wide, imageUrl 1280px wide.
+ */
+gamell.core.picture_card = (function gamell$core$picture_card(p__8068){
+var map__8069 = p__8068;
+var map__8069__$1 = cljs.core.__destructure_map(map__8069);
+var id = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__8069__$1,cljs.core.cst$kw$id);
+var caption = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__8069__$1,cljs.core.cst$kw$caption);
+var url = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__8069__$1,cljs.core.cst$kw$url);
+var imageUrl = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__8069__$1,cljs.core.cst$kw$imageUrl);
+var thumbnailUrl = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__8069__$1,cljs.core.cst$kw$thumbnailUrl);
+var thumb = (function (){var or__5162__auto__ = thumbnailUrl;
+if(cljs.core.truth_(or__5162__auto__)){
+return or__5162__auto__;
+} else {
+return imageUrl;
+}
+})();
+var alt = (function (){var or__5162__auto__ = caption;
+if(cljs.core.truth_(or__5162__auto__)){
+return or__5162__auto__;
+} else {
+return "";
+}
+})();
+return cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.cst$kw$href,url,cljs.core.cst$kw$target,"_blank",cljs.core.cst$kw$rel,"noopener"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$img,(function (){var G__8070 = new cljs.core.PersistentArrayMap(null, 4, [cljs.core.cst$kw$src,thumb,cljs.core.cst$kw$alt,alt,cljs.core.cst$kw$title,alt,cljs.core.cst$kw$loading,"lazy"], null);
+if(cljs.core.truth_((function (){var and__5160__auto__ = thumbnailUrl;
+if(cljs.core.truth_(and__5160__auto__)){
+return imageUrl;
+} else {
+return and__5160__auto__;
+}
+})())){
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(G__8070,cljs.core.cst$kw$srcset,(""+cljs.core.str.cljs$core$IFn$_invoke$arity$1(thumbnailUrl)+" 640w, "+cljs.core.str.cljs$core$IFn$_invoke$arity$1(imageUrl)+" 1280w"),cljs.core.prim_seq.cljs$core$IFn$_invoke$arity$2([cljs.core.cst$kw$sizes,"(max-width: 699px) 50vw, (max-width: 999px) 33vw, 270px"], 0));
+} else {
+return G__8070;
+}
+})()], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null));
 });
 gamell.core.repo_card = (function gamell$core$repo_card(card_info){
 return cljs.core.with_meta(new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,"wrapper"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h3,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$href,cljs.core.cst$kw$link.cljs$core$IFn$_invoke$arity$1(card_info)], null),cljs.core.cst$kw$name.cljs$core$IFn$_invoke$arity$1(card_info)], null)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$p,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,"description"], null),cljs.core.cst$kw$description.cljs$core$IFn$_invoke$arity$1(card_info)], null),new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$ul,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,"meta"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$li,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,"stars"], null),cljs.core.cst$kw$stars.cljs$core$IFn$_invoke$arity$1(card_info)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$li,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,"forks"], null),cljs.core.cst$kw$forks.cljs$core$IFn$_invoke$arity$1(card_info)], null)], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,cljs.core.cst$kw$link.cljs$core$IFn$_invoke$arity$1(card_info)], null));
@@ -60,9 +96,20 @@ return null;
 }
 });
 gamell.core.card = (function gamell$core$card(type,card_info,id){
-return cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$li$card,(function (){var fexpr__8068 = gamell.core.get_card(type);
-return (fexpr__8068.cljs$core$IFn$_invoke$arity$1 ? fexpr__8068.cljs$core$IFn$_invoke$arity$1(card_info) : fexpr__8068.call(null,card_info));
-})()], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,(""+"update-card-"+cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.name(type))+"-"+cljs.core.str.cljs$core$IFn$_invoke$arity$1(id))], null));
+return cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$li$card,(function (){var fexpr__8071 = gamell.core.get_card(type);
+return (fexpr__8071.cljs$core$IFn$_invoke$arity$1 ? fexpr__8071.cljs$core$IFn$_invoke$arity$1(card_info) : fexpr__8071.call(null,card_info));
+})()], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,(""+"update-card-"+cljs.core.str.cljs$core$IFn$_invoke$arity$1(cljs.core.name(type))+"-"+cljs.core.str.cljs$core$IFn$_invoke$arity$1((function (){var or__5162__auto__ = cljs.core.cst$kw$id.cljs$core$IFn$_invoke$arity$1(card_info);
+if(cljs.core.truth_(or__5162__auto__)){
+return or__5162__auto__;
+} else {
+var or__5162__auto____$1 = cljs.core.cst$kw$link.cljs$core$IFn$_invoke$arity$1(card_info);
+if(cljs.core.truth_(or__5162__auto____$1)){
+return or__5162__auto____$1;
+} else {
+return id;
+}
+}
+})()))], null));
 });
 gamell.core.contact_markdown = (function gamell$core$contact_markdown(data,id){
 return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$section,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,"contact"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,"contact"], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h2,"Contact information"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$contact_DASH_markdown,(function (){var markdowns = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$markdowns], null)));
@@ -75,16 +122,16 @@ return cljs.core.with_meta(new cljs.core.PersistentVector(null, 7, 5, cljs.core.
 gamell.core.content_section = (function gamell$core$content_section(type,data,id){
 var class$ = gamell.core.get_class(type);
 var title = cljs.core.cst$kw$title.cljs$core$IFn$_invoke$arity$1(cljs.core.get.cljs$core$IFn$_invoke$arity$2(gamell.core.type_map,type));
-return cljs.core.with_meta(new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$section,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,class$], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,class$], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h2,title], null),((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(type,cljs.core.cst$kw$articles))?new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [gamell.core.articles_header], null):null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$ul$section,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,class$], null),cljs.core.map.cljs$core$IFn$_invoke$arity$3((function (p1__8069_SHARP_,p2__8070_SHARP_){
-return gamell.core.card(type,p1__8069_SHARP_,p2__8070_SHARP_);
+return cljs.core.with_meta(new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$section,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,class$], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,class$], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h2,title], null),((cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(type,cljs.core.cst$kw$articles))?new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [gamell.core.articles_header], null):null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$ul$section,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,class$], null),cljs.core.map.cljs$core$IFn$_invoke$arity$3((function (p1__8072_SHARP_,p2__8073_SHARP_){
+return gamell.core.card(type,p1__8072_SHARP_,p2__8073_SHARP_);
 }),data,cljs.core.iterate(cljs.core.inc,(0)))], null)], null),new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$key,id], null));
 });
 gamell.core.sections = (function gamell$core$sections(){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$sections,(function (){var content = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$content], null)));
-return cljs.core.map.cljs$core$IFn$_invoke$arity$3((function (p__8071,id){
-var vec__8072 = p__8071;
-var type = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__8072,(0),null);
-var data = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__8072,(1),null);
+return cljs.core.map.cljs$core$IFn$_invoke$arity$3((function (p__8074,id){
+var vec__8075 = p__8074;
+var type = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__8075,(0),null);
+var data = cljs.core.nth.cljs$core$IFn$_invoke$arity$3(vec__8075,(1),null);
 return gamell.core.content_section(type,data,id);
 }),content,cljs.core.iterate(cljs.core.inc,(0)));
 })()], null);
