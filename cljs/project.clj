@@ -8,6 +8,7 @@
   :plugins [[lein-cljsbuild "1.1.5"]
             [lein-figwheel  "0.5.19"]
             [lein-less "1.7.5"]
+            [org.openjdk.nashorn/nashorn-core "15.6"]
             [lein-resource "17.06.1"]
             [lein-auto "0.1.3"]
             [lein-cooper "1.2.2"]
