@@ -1,13 +1,5 @@
-# gamell.io-v2
+# gamell.io
 
-Install JDK
-
-`brew install leiningen`
-
-`npm install`
-
-`npx gulp`
-
-Commit to github
-
-The site will be served from the `/docs` folder where the static and optimized build will be placed through Github pages
+Built from `apps/gamell.io/site` in `gamell/c137` by its `gamell.io site` workflow.
+Do not edit here: `docs/` (the GitHub Pages publishing source) is overwritten on every publish.
+The pre-2026-09 source history is preserved in this repo's git log.
