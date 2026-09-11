@@ -1,5 +1,6 @@
 (ns gamell.core
   (:require
+   [reagent.core :as r]
    [reagent.dom.client :as rdc]
    [re-frame.core :as rf]
    [clojure.string :as str]
@@ -184,7 +185,7 @@
    [:h2 "Contact information"]
    [:div.contact-markdown
     (let [markdowns @(rf/subscribe [:markdowns])]
-      {:dangerouslySetInnerHTML {:__html (:contact markdowns)}})]])
+      {:dangerouslySetInnerHTML (r/unsafe-html (:contact markdowns))})]])
 
 (defn articles-header
   []
@@ -222,7 +223,7 @@
   []
   [:div.intro
    (let [markdowns @(rf/subscribe [:markdowns])]
-     {:dangerouslySetInnerHTML {:__html (:intro markdowns)}})])
+     {:dangerouslySetInnerHTML (r/unsafe-html (:intro markdowns))})])
 
 (defn announcements-markdown
   []
@@ -232,7 +233,7 @@
         [:div.announcements
          [:h2 "Special Announcement"]
          [:div
-          {:dangerouslySetInnerHTML {:__html announcement-content} :class "content"}]]))))
+          {:dangerouslySetInnerHTML (r/unsafe-html announcement-content) :class "content"}]]))))
 
 (defn footer
   []

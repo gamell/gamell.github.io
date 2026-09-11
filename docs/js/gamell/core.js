@@ -2,6 +2,7 @@
 goog.provide('gamell.core');
 goog.require('cljs.core');
 goog.require('cljs.core.constants');
+goog.require('reagent.core');
 goog.require('reagent.dom.client');
 goog.require('re_frame.core');
 goog.require('clojure.string');
@@ -113,7 +114,7 @@ return id;
 });
 gamell.core.contact_markdown = (function gamell$core$contact_markdown(data,id){
 return new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$section,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$class,"contact"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$a,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$name,"contact"], null)], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h2,"Contact information"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$contact_DASH_markdown,(function (){var markdowns = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$markdowns], null)));
-return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$dangerouslySetInnerHTML,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$____html,cljs.core.cst$kw$contact.cljs$core$IFn$_invoke$arity$1(markdowns)], null)], null);
+return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$dangerouslySetInnerHTML,reagent.core.unsafe_html(cljs.core.cst$kw$contact.cljs$core$IFn$_invoke$arity$1(markdowns))], null);
 })()], null)], null);
 });
 gamell.core.articles_header = (function gamell$core$articles_header(){
@@ -138,14 +139,14 @@ return gamell.core.content_section(type,data,id);
 });
 gamell.core.intro_markdown = (function gamell$core$intro_markdown(){
 return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$intro,(function (){var markdowns = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$markdowns], null)));
-return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$dangerouslySetInnerHTML,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$____html,cljs.core.cst$kw$intro.cljs$core$IFn$_invoke$arity$1(markdowns)], null)], null);
+return new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$dangerouslySetInnerHTML,reagent.core.unsafe_html(cljs.core.cst$kw$intro.cljs$core$IFn$_invoke$arity$1(markdowns))], null);
 })()], null);
 });
 gamell.core.announcements_markdown = (function gamell$core$announcements_markdown(){
 var markdowns = cljs.core.deref(re_frame.core.subscribe.cljs$core$IFn$_invoke$arity$1(new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$markdowns], null)));
 var announcement_content = cljs.core.cst$kw$announcements.cljs$core$IFn$_invoke$arity$1(markdowns);
 if((((!((announcement_content == null)))) && ((cljs.core.count(announcement_content) > (0))))){
-return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$announcements,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h2,"Special Announcement"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$dangerouslySetInnerHTML,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.cst$kw$____html,announcement_content], null),cljs.core.cst$kw$class,"content"], null)], null)], null);
+return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div$announcements,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$h2,"Special Announcement"], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.cst$kw$div,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.cst$kw$dangerouslySetInnerHTML,reagent.core.unsafe_html(announcement_content),cljs.core.cst$kw$class,"content"], null)], null)], null);
 } else {
 return null;
 }
